@@ -7,7 +7,7 @@ import {  post } from "../../util/axios";
 import { setStorage } from "../../util/index";
  const login = {
   state:{
-    state:2,
+    state:0,
     token:'111'
   }, // initial state
   reducers: {
@@ -32,8 +32,11 @@ import { setStorage } from "../../util/index";
       const res =  await post('user/login', payload)
       console.log(res)
       if(res.code === 0) {
-        this.saveToken(res.data)
-        setStorage('token', res.data)
+        this.saveToken(res.data.token)
+        setStorage('token', res.data.token)
+        return 0
+      } else {
+        return 1
       }
      
     }

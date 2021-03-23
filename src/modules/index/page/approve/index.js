@@ -12,7 +12,7 @@ const Approve = props => {
   const { userControllerDispatch } = props;
  
   const getApproveList = () => {
-    userControllerDispatch.getApproveList(1)
+    // userControllerDispatch.getApproveList(1)
   }
 
   getApproveList()

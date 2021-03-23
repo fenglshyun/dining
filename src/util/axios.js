@@ -18,7 +18,7 @@ axios.interceptors.request.use(
   (config) => {
     config.data = JSON.stringify(config.data);
     const token = getStorage('token')
-    console.log(token);
+    // console.log(token);
     config.headers = {
       "Content-Type": "application/json",
       "token": token
@@ -47,19 +47,25 @@ export function get (url, params = {}) {
 
 export function post (url, data) {
   return new Promise((resolve, reject) => {
-    axios.post(url, data)
-    .then((res) => {
-      if(res.status === 200) { 
-        resolve(res.data);
-      } else{
-        reject(res)
-      }
-      
-    })
-    .catch((error) => {
-      reject(error);
+    try {
+      axios.post(url, data)
+      .then((res) => {
+        if(res.status === 200) { 
+          resolve(res.data);
+        } else{
+          reject(res)
+        }
+        
+      })
+      .catch((error) => {
+        reject(error);
+        console.log(error);
+      })
+    } catch (error) {
       console.log(error);
-    })
+      reject(error);
+    }
+    
     
   })
 }

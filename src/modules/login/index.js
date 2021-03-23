@@ -6,10 +6,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import {  Form, Input, Button, Checkbox, message } from 'antd'
 import style from  "./index.module.less"
-
 
 const layout = {
   labelCol: { span: 8 },
@@ -21,14 +20,20 @@ const tailLayout = {
 
 const Login = props =>{
   const { loginDispatch } = props
+  let history = useHistory();
 
-  const onFinish = (values) => {
-    const { studentId, password } = values
-    loginDispatch.submitLogin({
-      studentId,
+  const onFinish = async (values) => {
+    const { userId, password } = values
+    const result =  await loginDispatch.submitLogin({
+      userId,
       password
     })
-    console.log(values);
+    if(result === 0) {
+      message.success('登陆成功')
+      history.push("/index");
+    } else {
+      message.error('账号密码错误')
+    }
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -46,7 +51,7 @@ const Login = props =>{
     >
       <Form.Item
         label="账号"
-        name="studentId"
+        name="userId"
         rules={[{ required: true, message: '请输入账号' }]}
       >
         <Input />

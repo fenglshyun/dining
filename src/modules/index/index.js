@@ -21,7 +21,7 @@ const Index = props => {
      <Router>
       <Switch>
        <Route path="/index/approve" component={Approve}/>
-
+      
       </Switch>
      </Router>
      </div>

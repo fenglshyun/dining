@@ -5,18 +5,23 @@
  */
 import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
  const configMenu = [
+   {
+    key:'order',
+    title:'订单列表'
+   },
+
   {
-    key: 'sub1',
+    key: 'menu',
     icon: <MailOutlined />,
-    title: '成员管理',
+    title: '菜单管理',
     children: [
       {
-        key: 'approve',
-        title:'成员审批'
+        key: 'menuList',
+        title:'菜品列表'
       },
       {
-        key: '2',
-        title:'Option2'
+        key: 'addMenuType',
+        title:'增加菜品类型'
       },
       {
         key: '3',
@@ -29,27 +34,9 @@ import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/ico
     ]
   },
   {
-    key: 'sub2',
-    icon: <AppstoreOutlined />,
-    title: 'Navigation Two',
-    children: [
-      {
-        key: '5',
-        title:'Option5'
-      },
-      {
-        key: '6',
-        title:'Option6'
-      },
-      {
-        key: '7',
-        title:'Option7'
-      },
-      {
-        key: '8',
-        title:'Option8'
-      }
-    ]
-  }
+    key:'controller',
+    title:'人员管理'
+   },
+ 
 ];
 export default configMenu;

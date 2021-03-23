@@ -23,17 +23,25 @@ export const Sider = (props) => {
   const renderSide = (optionSide) => {
     let sideHtml = ''
     sideHtml =  optionSide.map((sub, i) => {
-      return (
-        <SubMenu key={sub.key} icon={sub.icon} title={sub.title}>
-          {
-              sub.children.map((item, i ) => {
-                return (
-                  <Menu.Item key={item.key}>{item.title}</Menu.Item>
-                )
-              })
-          }
-        </SubMenu>
-      )
+      if(sub.children) {
+        return (
+          <SubMenu key={sub.key} icon={sub.icon} title={sub.title}>
+            { 
+  
+                sub.children && sub.children.map((item, i ) => {
+                  return (
+                    <Menu.Item key={item.key}>{item.title}</Menu.Item>
+                  )
+                })
+            }
+          </SubMenu>
+        )
+      } else {
+        return (
+          <Menu.Item key={sub.key}>{sub.title}</Menu.Item>
+        )
+      }
+
     })
     return sideHtml
   }
@@ -43,12 +51,12 @@ export const Sider = (props) => {
     history.push(`/index/${e.key}`)
 
   };
+
   return (
     <Menu 
         mode="inline"
-        openKeys={openKeys} 
         style={{ width: 256 }}
-        defaultSelectedKeys={['approve']}
+        defaultSelectedKeys={['order']}
         onClick={handleClick}
         className={style.side}
     >
