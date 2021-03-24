@@ -7,26 +7,23 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-
+import style from  "./index.module.less"
 const InfoTitle = props =>{
   const { loginDispatch } = props
-  const getInfo = ()=> {
-    loginDispatch.getInfo()
-  }
-  getInfo()
   return (
-    <div>
-      11
+    <div className={style.top}>
+      <span className={style.title}>智慧餐饮管理系统</span>
+      <span className={style.user}>当前用户：{props.Info}</span>
     </div>
   )
 } 
 
 const mapState = state => ({
-    Info: state.common.Info
+    Info: state.login.userPower
 })
 
 const mapDispatch = (dispatch) => ({
-    loginDispatch : dispatch.common
+    loginDispatch : dispatch.login
 })
 const InfoTitleContainer = connect(mapState, mapDispatch)(InfoTitle)
 export default InfoTitleContainer;

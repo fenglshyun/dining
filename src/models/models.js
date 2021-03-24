@@ -23,3 +23,4 @@
 export { default as login } from './login'
 export { default as common } from './common'
 export { default as userController } from './userController'
+export { default as menu } from './menu'

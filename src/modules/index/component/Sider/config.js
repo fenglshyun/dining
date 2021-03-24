@@ -18,7 +18,7 @@ import OrderIconFont from "../../../iconfont/order";
   },
   {
     key: 'addMenuType',
-    title: '增加菜品类型',
+    title: '菜品类型',
     icon: <OrderIconFont type="icon-zengjia"/>
   },
   {

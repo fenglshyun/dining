@@ -19,15 +19,15 @@ import { get } from "../../util/axios";
   effects: {
     // handle state changes with impure functions.
     // use async/await for async actions
-    async getInfo(payload, rootState) {
-      const res =  await get('api/user/register', payload)
-      console.log(res)
-      if(res.code === 0) {
-        this.saveToken(res.data)
-        // saveInfo('token', res.data)
-      }
+    // async getInfo(payload, rootState) {
+    //   const res =  await get('api/user/register', payload)
+    //   console.log(res)
+    //   if(res.code === 0) {
+    //     this.saveToken(res.data)
+    //     // saveInfo('token', res.data)
+    //   }
      
-    }
+    // }
   }
 }
 export default common;

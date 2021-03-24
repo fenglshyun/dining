@@ -8,12 +8,15 @@ import { setStorage } from "../../util/index";
  const login = {
   state:{
     state:0,
-    token:'111'
+    token:'111',
+    userPower: ''
   }, // initial state
   reducers: {
     // handle state changes with pure functions
-    increment(state, payload) {
-      return state + payload
+    saveUserPower(state, payload) {
+      return {
+        userPower: payload
+      }
     },
     saveToken(state, payload) {
       return{
@@ -33,6 +36,7 @@ import { setStorage } from "../../util/index";
       console.log(res)
       if(res.code === 0) {
         this.saveToken(res.data.token)
+        this.saveUserPower(`${res.data.userName}`)
         setStorage('token', res.data.token)
         return 0
       } else {
