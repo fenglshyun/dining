@@ -10,6 +10,7 @@ import { Link, Route, BrowserRouter as Router, Switch } from 'react-router-dom'
 import { Sider } from "./component/Sider";
 import InfoTitleContainer from "./component/InfoTitle";
 import Approve from "./page/approve"
+import AddMenu from "./page/addMenu"
 import  style  from "./index.module.less"
 
 const Index = props => {
@@ -18,12 +19,12 @@ const Index = props => {
      <Sider></Sider>
     {/* <InfoTitleContainer></InfoTitleContainer> */}
      <div  className={style.switch}>
-     <Router>
-      <Switch>
-       <Route path="/index/approve" component={Approve}/>
-      
-      </Switch>
-     </Router>
+     
+    <Switch>
+      <Route exact path="/index/approve" component={Approve}/>
+      <Route exact path="/index/addMenu" component={AddMenu}/>
+    </Switch>
+     
      </div>
      
    </div>

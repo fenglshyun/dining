@@ -13,6 +13,7 @@ const Approve = props => {
  
   const getApproveList = () => {
     // userControllerDispatch.getApproveList(1)
+    console.log('成员审批');
   }
 
   getApproveList()
