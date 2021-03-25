@@ -9,13 +9,19 @@ import { setStorage } from "../../util/index";
   state:{
     state:0,
     token:'111',
-    userPower: ''
+    userPower: '',
+    userName:''
   }, // initial state
   reducers: {
     // handle state changes with pure functions
     saveUserPower(state, payload) {
       return {
         userPower: payload
+      }
+    },
+    saveUserName(state, payload) {
+      return {
+        userName: payload
       }
     },
     saveToken(state, payload) {
@@ -42,7 +48,16 @@ import { setStorage } from "../../util/index";
       } else {
         return 1
       }
-     
+    },
+    async getUserInfo(payload, rootState) {
+      const res = await post('user/getUser', { token: payload})
+      if(res.code === 0) {
+        this.saveUserName(`${res.data.userName}`)
+        return 0
+      } else {
+        console.log(res);
+        return 1
+      }
     }
   }
 }

@@ -8,10 +8,13 @@ import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-const Count = props => (
+const Count = props => {
+  
+  return (
     <div>
     </div>
 )
+} 
 
 const mapState = state => ({
 })

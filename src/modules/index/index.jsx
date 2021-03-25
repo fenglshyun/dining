@@ -12,6 +12,7 @@ import InfoTitleContainer from "./component/InfoTitle";
 import Approve from "./page/approve"
 import AddMenu from "./page/addMenu"
 import AddMenuType from "./page/addMenuType"
+import MenuList from "./page/menuList"
 import  style  from "./index.module.less"
 
 const Index = props => {
@@ -20,19 +21,16 @@ const Index = props => {
      <div>
        <InfoTitleContainer></InfoTitleContainer>
      </div>
-     <div className={style.side}>
-     <Sider></Sider>
-     </div>
-     
-    {/* <InfoTitleContainer></InfoTitleContainer> */}
-     <div  className={style.switch}>
-     
-    <Switch>
-      <Route exact path="/index/approve" component={Approve}/>
-      <Route exact path="/index/addMenu" component={AddMenu}/>
-      <Route exact path="/index/addMenuType" component={AddMenuType}/>
-    </Switch>
-     
+     <div className={style.container}>
+      <Sider className={style.side}></Sider> 
+      <div   className={style.switch}>
+        <Switch>
+          <Route exact path="/index/approve" component={Approve}/>
+          <Route exact path="/index/addMenu" component={AddMenu}/>
+          <Route exact path="/index/addMenuType" component={AddMenuType}/>
+          <Route exact path="/index/menuList" component={MenuList}/>
+        </Switch>
+      </div>
      </div>
      
    </div>

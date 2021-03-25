@@ -3,46 +3,39 @@
  * @Author: lsh
  * @Email: 864115770@qq.com
  * @Date: 2021-03-24 11:37:09
- * @LastEditTime: 2021-03-24 17:31:58
+ * @LastEditTime: 2021-03-25 15:12:27
  * @LastEditors: lsh
  */
 import React, { useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { Form, Input, Button, Checkbox, Table } from 'antd';
+import { Form, Input, Button, Checkbox, Table, message } from 'antd';
 
 
 const layout = {
   labelCol: { span: 8 },
-  wrapperCol: { span: 16 },
+  wrapperCol: { span: 4 },
 };
 const tailLayout = {
   wrapperCol: { offset: 8, span: 16 },
 };
-const columns = [
-  {
-    title: '菜品类型标号',
-    dataIndex: 'log_id',
-    key: 'log_id'
-  },
-  {
-    title: '菜品类型名称',
-    dataIndex: 'menuName',
-    key: 'menuName'
-  },
-  {
-    title: '添加时间',
-    dataIndex: 'createTime',
-    key: 'createTime'
-  }
-]
+
 
 const AddMenuType = props => {
   const { menuDispatch } = props;
 
-  const onFinish = (values) => {
+  
+
+  const onFinish = async (values) => {
     console.log('Success:', values);
+    const result = await menuDispatch.addMenuTypeList(values.menuName)
+    if(result === true) {
+      message.success('添加成功')
+      getMenuTypeList()
+    } else {
+      message.success('添加失败')
+    }
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -53,16 +46,54 @@ const AddMenuType = props => {
     console.log(props);
   }
 
+  const clickDelete = async (log_id) => {
+    const result = await menuDispatch.deleteMenuTypeList(log_id)
+    if(result === true) {
+      message.success('删除成功')
+      getMenuTypeList()
+    } else {
+      message.success('删除失败')
+    }
+  };
+
   useEffect( ()=> {
      getMenuTypeList()
    
   }, [])
+
+
+  const columns = [
+    {
+      title: '菜品类型标号',
+      dataIndex: 'log_id',
+      key: 'log_id'
+    },
+    {
+      title: '菜品类型名称',
+      dataIndex: 'menuName',
+      key: 'menuName'
+    },
+    {
+      title: '添加时间',
+      dataIndex: 'createTime',
+      key: 'createTime'
+    },
+    {
+      title: 'Action',
+      dataIndex: '',
+      key: 'x',
+      render: (record) => {
+        return (
+          <a onClick={() => clickDelete(record.log_id)}>Delete</a>
+        )
+      }
+    },
+  ]
  
   
   
   return (
     <div>
-      增加菜品类型
       <div>
       <Table 
         columns={columns} 
@@ -75,6 +106,7 @@ const AddMenuType = props => {
           {...layout}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
+          span={8}
         >
           <Form.Item
             label="菜品类型"
@@ -84,7 +116,7 @@ const AddMenuType = props => {
             <Input />
           </Form.Item>
 
-          <Form.Item {...tailLayout}>
+          <Form.Item {...tailLayout} >
             <Button type="primary" htmlType="submit">
               Submit
             </Button>

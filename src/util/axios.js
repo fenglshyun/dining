@@ -21,7 +21,7 @@ axios.interceptors.request.use(
     // console.log(token);
     config.headers = {
       "Content-Type": "application/json",
-      "token": token
+      "Authorization": `Bearer ${token}`
 
     };
     return config;
