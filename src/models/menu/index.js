@@ -3,7 +3,7 @@
  * @Author: lsh
  * @Email: 864115770@qq.com
  * @Date: 2021-03-24 17:06:14
- * @LastEditTime: 2021-03-25 14:58:30
+ * @LastEditTime: 2021-04-01 17:35:04
  * @LastEditors: lsh
  */
 import { get, post } from "../../util/axios";
@@ -12,6 +12,10 @@ const menu = {
     menuTypeList:[],
     menuList:{
       foodList: [],
+      count: 0
+    },
+    orderList: {
+      orderList: [],
       count: 0
     }
   }, // initial state
@@ -26,19 +30,25 @@ const menu = {
       return {
         menuList: payload
       }
+    },
+    saveOrderList(state, payload) {
+      return {
+        orderList: payload
+      }
     }
   },
   effects: {
     // handle state changes with impure functions.
     // use async/await for async actions
     async getMenuTypeList(payload, rootState) {
-      console.log(payload)
       const res =  await get(`/menu/findMenuType`)
-      console.log(res)
       if(res.code === 0) {
         this.saveList(res.data)
+        return res.data
         // this.saveToken(res.data)
         // saveInfo('token', res.data)
+      } else {
+        return false
       }
      
     },
@@ -65,10 +75,38 @@ const menu = {
       console.log(res)
       if(res.code === 0) {
         this.saveMenuList(res.data)
+        return res.data
         // this.saveToken(res.data)
         // saveInfo('token', res.data)
       }
-    }
+    },
+    async findOrderList(payload, rootState) {
+      console.log(payload);
+      const res =  await get(`/order/orderListPage`,{ page: payload })
+      console.log(res)
+      if(res.code === 0) {
+        this.saveOrderList(res.data)
+        return res.data
+        // this.saveToken(res.data)
+        // saveInfo('token', res.data)
+      }
+    },
+    async updateOrder(payload, rootState) {
+      const res = await post (`/order/updateOrder`, { orderNumber: payload })
+      if(res.code === 0) {
+        return true
+      }else {
+        return false
+      }
+    },
+    async deleteGood(payload, rootState) {
+      const res = await post (`/menu/deleteGood`, {log_id: payload})
+      if(res.code === 0) {
+        return true
+      }else {
+        return false
+      }
+    },
   }
 }
 export default menu;

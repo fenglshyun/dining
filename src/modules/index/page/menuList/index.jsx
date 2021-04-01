@@ -1,20 +1,47 @@
-import React from 'react'
+import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { useEffect } from "react";
-import { Table } from "antd";
+import { Table, message } from "antd";
 const Menu = props => {
   const { menuDispatch } = props;
+  // let menuType = {}
+  const [page, setPage] = useState(1)
+  const [menuType, setMenuType] = useState({})
   const getMenuList = async (page) => {
-    await menuDispatch.findMenuList(page)
-    console.log(props);
+    const res = await menuDispatch.findMenuList(page)
+    console.log('----', res);
   }
+
+  const clickDelete = async (log_id) => {
+    const result = await menuDispatch.deleteGood(log_id)
+    if(result === true) {
+      message.success('删除成功')
+      getMenuList(page)
+    } else {
+      message.error('删除失败')
+    }
+  };
+  const getMenuTypeList = async () => {
+   const result =  await menuDispatch.getMenuTypeList()
+   result.forEach(e => {
+    menuType[e.log_id]  = e.menuName
+   });
+    // menuType = result
+    setMenuType(menuType)
+    console.log(menuType);
+
+  }
+  
+
   const onChangePage = (page) => {
-    console.log(page.current);
+    setPage(page.current)
     getMenuList(page.current)
   }
-  useEffect( ()=> {
+  useEffect( async ()=> {
+   
+    await getMenuTypeList()
     getMenuList(1)
   
  }, [])
@@ -31,7 +58,12 @@ const Menu = props => {
   {
     title: '菜品类型标号',
     dataIndex: 'goodNum',
-    key: 'goodNum'
+    key: 'goodNum',
+    render: (record) => {
+      return (
+        <span>{menuType[record]}</span>
+      )
+    }
   },
   {
     title: '菜品名称',
@@ -43,7 +75,6 @@ const Menu = props => {
     dataIndex: 'goodUrl',
     key: 'goodUrl',
     render: (record) => {
-      console.log(record);
       return (
         <img  width="160" src={record} />
       )
@@ -68,6 +99,7 @@ const Menu = props => {
     title: '简单描述',
     dataIndex: 'description',
     key: 'description',
+    width: '20%',
     render: (record) => {
       return (
         <span>{record}</span>
@@ -85,8 +117,8 @@ const Menu = props => {
     key: 'x',
     render: (record) => {
       return (
-        // <a onClick={() => clickDelete(record.log_id)}>Delete</a>
-        <a href=""> Delete </a>
+        <a onClick={() => clickDelete(record.log_id)}>删除菜品</a>
+        // <a href=""> Delete </a>
       )
     }
   },

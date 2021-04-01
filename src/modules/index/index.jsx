@@ -13,6 +13,7 @@ import Approve from "./page/approve"
 import AddMenu from "./page/addMenu"
 import AddMenuType from "./page/addMenuType"
 import MenuList from "./page/menuList"
+import Order from "./page/order"
 import  style  from "./index.module.less"
 
 const Index = props => {
@@ -29,6 +30,7 @@ const Index = props => {
           <Route exact path="/index/addMenu" component={AddMenu}/>
           <Route exact path="/index/addMenuType" component={AddMenuType}/>
           <Route exact path="/index/menuList" component={MenuList}/>
+          <Route exact path="/index/order" component={Order}/>
         </Switch>
       </div>
      </div>
