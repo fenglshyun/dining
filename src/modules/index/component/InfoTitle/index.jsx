@@ -6,16 +6,23 @@
 import React, { useEffect, useState } from 'react'
 import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
-import { getStorage } from "../../../../util/index";
+import { Link, useHistory } from 'react-router-dom'
+import { getStorage, clearStorage } from "../../../../util/index";
 import style from  "./index.module.less"
 const InfoTitle = props =>{
   const { loginDispatch } = props
   const [userName, setUserName] = useState('')
+  let history = useHistory();
 
   const getUserName = async (token) => {
     const result = await loginDispatch.getUserInfo(token)
     console.log(result);
+  }
+
+  const breakLogin = () => {
+    console.log('退出');
+    clearStorage()
+    history.push("/");
   }
 
 
@@ -29,7 +36,13 @@ const InfoTitle = props =>{
   return (
     <div className={style.top}>
       <span className={style.title}>智慧餐饮管理系统</span>
-      <span className={style.user}>当前用户：{props.userName}</span>
+      <div>
+        <span className={style.user}>当前用户：{props.userName}</span>
+        <span className={style.break} onClick={breakLogin}>退出</span>
+      </div>
+     
+     
+      
     </div>
   )
 } 

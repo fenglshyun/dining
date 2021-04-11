@@ -12,4 +12,8 @@ export function getStorage(type) {
   return localStorage.getItem(type);
 }
 
+export function clearStorage() {
+  localStorage.clear();
+}
+
  

@@ -6,7 +6,8 @@
 import { get, post } from "../../util/axios";
 const userController = {
   state:{
-    info:''
+    info:'',
+    userList:[]
   }, // initial state
   reducers: {
     // handle state changes with pure functions
@@ -14,25 +15,43 @@ const userController = {
       return{
         info:payload
       }
-    }
+    },
+    saveUserList(state, payload) {
+      return {
+        userList: payload
+      }
+    },
   },
   effects: {
     // handle state changes with impure functions.
     // use async/await for async actions
     async getApproveList(payload, rootState) {
       console.log(payload)
-      const res =  await get(`/user/registerlist/`,
-      {
-        currPage: payload
-      }
-      )
+      const res =  await get(`/user/getUserList`)
       console.log(res)
       if(res.code === 0) {
-        // this.saveToken(res.data)
-        // saveInfo('token', res.data)
+        this.saveUserList(res.data)
       }
      
-    }
+    },
+    async deleteUser (payload, rootState) {
+      const res = await post (`/user/deleteUser`, {log_id: payload})
+      if(res.code === 0) {
+        return true
+      }else {
+        return false
+      }
+    },
+    async addUser(payload, rootState) {
+      const res = await post (`/user/addUser`, {
+        userInfo: payload
+      })
+      if(res.code === 0) {
+        return true
+      }else {
+        return false
+      }
+    },
   }
 }
 export default userController;

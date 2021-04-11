@@ -30,7 +30,7 @@ const Login = props =>{
     })
     if(result === 0) {
       message.success('登陆成功')
-      history.push("/index");
+      history.push("/index/order");
     } else {
       message.error('账号密码错误')
     }

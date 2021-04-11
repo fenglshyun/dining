@@ -3,7 +3,7 @@
  * @Author: lsh
  * @Email: 864115770@qq.com
  * @Date: 2021-03-24 17:06:14
- * @LastEditTime: 2021-04-01 17:35:04
+ * @LastEditTime: 2021-04-11 19:31:25
  * @LastEditors: lsh
  */
 import { get, post } from "../../util/axios";
@@ -17,7 +17,8 @@ const menu = {
     orderList: {
       orderList: [],
       count: 0
-    }
+    },
+    savePhotoToken: ''
   }, // initial state
   reducers: {
     // handle state changes with pure functions
@@ -34,6 +35,11 @@ const menu = {
     saveOrderList(state, payload) {
       return {
         orderList: payload
+      }
+    },
+    savePhotoToken(state, payload) {
+      return {
+        photoToken: payload
       }
     }
   },
@@ -106,7 +112,27 @@ const menu = {
       }else {
         return false
       }
+    }, 
+    async getPhotoToken(payload, rootState) {
+      console.log(payload);
+      const res =  await get(`/photo/token`)
+      console.log(res)
+      if(res.code === 0) {
+        this.savePhotoToken(res.data)
+        return res.data
+        // this.saveToken(res.data)
+        // saveInfo('token', res.data)
+      }
     },
+    async addGood(payload, rootState) {
+      const res = await post (`/menu/addFood`,  payload)
+      if(res.code === 0) {
+        return true
+      }else {
+        return false
+      }
+    },
+    
   }
 }
 export default menu;
