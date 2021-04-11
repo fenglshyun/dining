@@ -8,27 +8,27 @@ import OrderIconFont from "../../../iconfont/order";
  const configMenu = [
   {
     key:'order',
-    title:'订单列表',
+    title:'教师行程上报',
     icon: <OrderIconFont type="icon-liebiao"/>
   },
   {
     key: 'menuList',
-    title:'菜品列表',
+    title:'学生行程数据查看',
     icon: <OrderIconFont type="icon-caipinpaihangbang"/>
   },
   {
     key: 'addMenuType',
-    title: '菜品类型',
+    title: '学生健康数据展示',
     icon: <OrderIconFont type="icon-zengjia"/>
   },
   {
     key: 'addMenu',
-    title: '增加菜品',
+    title: '返校批次数据',
     icon: <OrderIconFont type="icon-9"/>
   },
   {
     key:'approve',
-    title: '人员管理',
+    title: '学生信息管理',
     icon: <OrderIconFont type="icon-renyuanguanli"/>
   }
  
