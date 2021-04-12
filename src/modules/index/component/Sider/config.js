@@ -17,7 +17,7 @@ import OrderIconFont from "../../../iconfont/order";
     icon: <OrderIconFont type="icon-caipinpaihangbang"/>
   },
   {
-    key: 'addMenuType',
+    key: 'studentHealth',
     title: '学生健康数据展示',
     icon: <OrderIconFont type="icon-zengjia"/>
   },
@@ -27,7 +27,7 @@ import OrderIconFont from "../../../iconfont/order";
     icon: <OrderIconFont type="icon-9"/>
   },
   {
-    key:'approve',
+    key:'studentInfo',
     title: '学生信息管理',
     icon: <OrderIconFont type="icon-renyuanguanli"/>
   }
