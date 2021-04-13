@@ -8,7 +8,7 @@ import OrderIconFont from "../../../iconfont/order";
  const configMenu = [
   {
     key:'order',
-    title:'教师行程上报',
+    title:'教师行程数据查看',
     icon: <OrderIconFont type="icon-liebiao"/>
   },
   {
