@@ -12,7 +12,7 @@ import OrderIconFont from "../../../iconfont/order";
     icon: <OrderIconFont type="icon-liebiao"/>
   },
   {
-    key: 'menuList',
+    key: 'studentJourney',
     title:'学生行程数据查看',
     icon: <OrderIconFont type="icon-caipinpaihangbang"/>
   },
