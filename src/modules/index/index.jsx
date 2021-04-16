@@ -15,7 +15,7 @@ import AddMenuType from "./page/addMenuType"
 import MenuList from "./page/menuList"
 import Order from "./page/order"
 import WhitePage from "./page/whitePage"
-import { StudentInfo, StudentHealth, Journey } from "./page/epidemic"
+import { StudentInfo, StudentHealth, Journey, Come } from "./page/epidemic"
 import  style  from "./index.module.less"
 
 const Index = props => {
@@ -36,7 +36,7 @@ const Index = props => {
         </Switch> */}
         <Switch>
           <Route exact path="/index/approve" component={WhitePage}/>
-          <Route exact path="/index/addMenu" component={WhitePage}/>
+          <Route exact path="/index/comeSchool" component={Come}/>
           <Route exact path="/index/studentJourney" component={Journey}/>
           <Route exact path="/index/studentHealth" component={StudentHealth}/>
           <Route exact path="/index/studentInfo" component={StudentInfo}/>

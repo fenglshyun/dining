@@ -22,7 +22,7 @@ import OrderIconFont from "../../../iconfont/order";
     icon: <OrderIconFont type="icon-zengjia"/>
   },
   {
-    key: 'addMenu',
+    key: 'comeSchool',
     title: '返校批次数据',
     icon: <OrderIconFont type="icon-9"/>
   },

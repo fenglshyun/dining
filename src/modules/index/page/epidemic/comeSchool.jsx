@@ -7,7 +7,7 @@ import  style  from "./index.module.less"
 import EpidemicEcharts from './component/epidemicEcharts'
 import MyTable from './component/MyTable'
 import MyEcharts from "./component/echarts"
-const Journey = props => {
+const Come = props => {
   const columns = [
     {
       title: '序号',
@@ -85,9 +85,10 @@ const Journey = props => {
       comeSchool: '2021/04/17'
     }
   ]
-  const studentBadge = {
-    risk: 7,
-    quarantine: 7
+  const comeStudent = {
+    first: 500,
+    second: 5000,
+    third: 7000
   }
   const echartsRisk = {
     college: ['软件', '计算机'],
@@ -96,38 +97,44 @@ const Journey = props => {
   
   return (
     <div>
-      <EpidemicEcharts className={`${style['flexAlign'] }`}>
-
-      </EpidemicEcharts>
       <div className={`${style['flexAlign']} ${style['margin20']}` }>
         <div className={`${style.margins20} ` }>
-          <div>近七天出入中高风险地区人数</div>
+          <div>第一批返校人数</div>
           <div className={`${style['flexAlign']}`}>
             <Badge
-              
+              overflowCount={99999}
               className="site-badge-count-109"
-              count={studentBadge ? studentBadge.risk : 0}
+              count={comeStudent ? comeStudent.first : 0}
               style={{ backgroundColor: '#1789F3', cursor:'pointer' }}
             />
           </div>
         </div>
         <div className={style.margins20}>
-          <div>隔离人数</div>
+          <div>第二批返校人数</div>
           <div className={`${style['flexAlign']}`}>
             <Badge
             
               className="site-badge-count-109"
-              count={studentBadge ? studentBadge.quarantine : 0}
+              count={comeStudent ? comeStudent.first : 0}
+              overflowCount={99999}
+              style={{ backgroundColor: '#f5222d', cursor:'pointer' }}
+            />
+          </div>
+        </div>
+        <div className={style.margins20}>
+          <div>第三批返校人数</div>
+          <div className={`${style['flexAlign']}`}>
+            <Badge
+            
+              className="site-badge-count-109"
+              count={comeStudent ? comeStudent.first : 0}
+              overflowCount={99999}
               style={{ backgroundColor: '#f5222d', cursor:'pointer' }}
             />
           </div>
         </div>
       </div>
-      <div className={`${style['flexAlign']} ${style['margin20']}` }>
-        <MyEcharts id='noPunch' title='各学院出入中高风险地区人数' xData={echartsRisk && echartsRisk.college} 
-          seriesName = '人数' seriesData={echartsRisk && echartsRisk.num }>
-
-        </MyEcharts>
+      <div >
         <MyTable 
           title={'隔离名单'}
           columns={columns} 
@@ -151,5 +158,5 @@ const mapState = state => ({
 const mapDispatch = (dispatch) => ({
 
 })
-const JourneyContainer = connect(mapState, mapDispatch)(Journey)
-export default JourneyContainer;
+const ComeContainer = connect(mapState, mapDispatch)(Come)
+export default ComeContainer;

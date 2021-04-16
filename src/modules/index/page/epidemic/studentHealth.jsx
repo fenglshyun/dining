@@ -130,7 +130,6 @@ const StudentHealth = props => {
               style={{ backgroundColor: '#52c41a', cursor:'pointer' }}
             />
           </div>
-         
         </div>
 
         <div className={style.margins20}>

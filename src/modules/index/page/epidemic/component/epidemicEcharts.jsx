@@ -424,7 +424,7 @@ const EpidemicEcharts = props => {
 
   return (
     <div >
-      <div id="epidemic" style={{ width: 1000, height: 800, margin: '40px'}}></div>
+      <div id="epidemic" style={{ width: 1000, height: 500, margin: ' 40px auto'}}></div>
     </div>
     
     
