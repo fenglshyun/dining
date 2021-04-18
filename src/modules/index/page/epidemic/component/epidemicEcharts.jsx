@@ -9,22 +9,23 @@ import 'echarts/extension/bmap/bmap.js';
 
 // const { Search } = Input;
 const EpidemicEcharts = props => {
-  // const { id, title, xData, seriesName, seriesData } = props
-  
-  const initEcharts = () => {
+  const { id, dataValue } = props
+  console.log(dataValue);
+  const initEcharts = (data) => {
   // const myChart = echarts.init(document.getElementById(`${id}`));
     // const myChart = echarts.init(document.getElementById('epidemic'));
-
-
+    console.log(data);
+    if(Object.getOwnPropertyNames(data).length === 0 ) {
+      data = [{
+        name: '北京',
+        value: 1
+      }]
+    }
 
 
     const chartDom = document.getElementById('epidemic');
     const myChart = echarts.init(chartDom);
-    let option;
-    const data = [
-      {name: '上海', value: 209},
-      {name: '鄂尔多斯', value: 100}
-    ];
+     let option;
     const geoCoordMap = {
         '海门':[121.15,31.89],
         '鄂尔多斯':[109.781327,39.608266],
@@ -218,7 +219,7 @@ const EpidemicEcharts = props => {
         '大庆':[125.03,46.58]
     };
 
-    var convertData = function (data) {
+    const convertData = function (data) {
       var res = [];
       for (var i = 0; i < data.length; i++) {
           var geoCoord = geoCoordMap[data[i].name];
@@ -399,32 +400,20 @@ const EpidemicEcharts = props => {
           }
       ]
     };
-    
-  
-  
- 
-    // 基于准备好的dom，初始化echarts实例
-    
-      // 绘制图表
 
-    myChart.setOption(option);
-    // var bmap = myChart.getModel().getComponent('bmap').getBMap();
-		// bmap.disableDoubleClickZoom()
-  
-
-    return myChart
+      dataValue && myChart.setOption(option);
   }
   
    
   useEffect (() => {
 
-    initEcharts()
+    initEcharts(dataValue)
    
-  }, [])
+  }, [props.dataValue])
 
   return (
     <div >
-      <div id="epidemic" style={{ width: 1000, height: 500, margin: ' 40px auto'}}></div>
+      <div id={id} style={{ width: 1000, height: 500, margin: ' 40px auto'}}></div>
     </div>
     
     

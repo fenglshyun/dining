@@ -8,9 +8,13 @@ import {  get, post } from "../../util/axios";
   state:{
     state:0,
     studentHealth:{
-      '1':1
+     
     },
-    studentHealthTable:{}
+    studentHealthTable:{},
+    studentJourneyTable: {},
+    studentQuarantineTable: {},
+    eidemicEcharts: [],
+    collegeQuarantine: {}
   }, // initial state
   reducers: {
     // handle state changes with pure functions
@@ -38,6 +42,26 @@ import {  get, post } from "../../util/axios";
     saveStudentHealthTable(state, payload) {
       return {
         studentHealthTable:payload
+      }
+    },
+    saveStudentJourneyTable(state, payload) {
+      return {
+        studentJourneyTable: payload
+      }
+    },
+    saveStudentQuarantineTable (state, payload) {
+      return {
+        studentQuarantineTable: payload
+      }
+    },
+    saveEpidemicEcharts (state, payload) {
+      return {
+        eidemicEcharts: payload
+      }
+    },
+    saveCollegeQuarantine (state, payload) {
+      return {
+        collegeQuarantine: payload
       }
     }
   },
@@ -73,7 +97,52 @@ import {  get, post } from "../../util/axios";
         console.log(res);
         return 1
       }
-    }
+    },
+    async getStudentJourney (payload, rootState) { // 学生行程
+      const res = await get('/epidemic/studentJourney', {
+        page: payload
+       })
+       if(res.code === 0) {
+         this.saveStudentJourneyTable(res.data)
+         return res.data
+       } else {
+         console.log(res);
+         return 1
+       }
+    },
+    async getStudentQuarantine (payload, rootState) { // 获取隔离学生名单
+      const res = await get('/epidemic/studentQuarantine', {
+        page: payload
+       })
+       if(res.code === 0) {
+         this.saveStudentQuarantineTable(res.data)
+         return res.data
+       } else {
+         console.log(res);
+         return 1
+       }
+    },
+    async getEpidemicEcharts (payload, rootState) { // 获取隔离学生名单
+      const res = await get('/epidemic/locationJourney')
+       if(res.code === 0) {
+         this.saveEpidemicEcharts(res.data)
+         return res.data
+       } else {
+         console.log(res);
+         return 1
+       }
+    },
+    async getCollegeQuarantine (payload, rootState) { // 获取隔离学生名单
+      const res = await get('/epidemic/getCollegeQuarantine')
+       if(res.code === 0) {
+         this.saveCollegeQuarantine(res.data)
+         return res.data
+       } else {
+         console.log(res);
+         return 1
+       }
+    },
+    
   }
 }
 export default health;

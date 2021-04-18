@@ -6,7 +6,7 @@ import * as echarts from 'echarts';
 const MyEcharts = props => {
   const { id, title, xData, seriesName, seriesData } = props
   
-  const initEcharts = (xdata_1) => {
+  const initEcharts = () => {
     // 基于准备好的dom，初始化echarts实例
     const myChart = echarts.init(document.getElementById(`${id}`));
       // 绘制图表

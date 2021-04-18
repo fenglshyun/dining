@@ -6,13 +6,21 @@ import { Form, Input, Button, Checkbox, Table, message } from 'antd';
 import { AudioOutlined } from '@ant-design/icons';
 import MySearch from "./component/MySearch"
 import  style  from "./index.module.less"
+import OnImport from "./component/onImport"
+
 const { Search } = Input;
 const StudentInfo = props => {
 
   const clickDelete = () => {
     console.log('1');
   }
-
+  const receiveChildren = (data)=> {
+    postInfo(data)
+    return data
+  }
+  const postInfo = async (data) => {
+    console.log(data);
+  }
   const columns = [
     {
       title: '序号',
@@ -184,7 +192,7 @@ const StudentInfo = props => {
       studentOrigin: '重庆'
     }
   ]
-  
+
   return (
     <div className={style.studentInfo}>
       <div>
@@ -192,6 +200,7 @@ const StudentInfo = props => {
 
         </MySearch>
       </div>
+      <div> <OnImport receiveChildren={receiveChildren}></OnImport></div>
       <div>
         <Table 
           columns={columns} 
