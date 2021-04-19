@@ -3,7 +3,7 @@ import { Input, Icon, Button, Upload  } from 'antd'
 import * as XLSX from 'xlsx';
 import  styles  from "./index.module.less"
 const OnImport = props => {
-  const { receiveChildren } = props
+  const { receiveChildren, aHref } = props
   const onImportExcel = (file) => {
     const { files } = file.target;
     // 通过FileReader对象读取文件
@@ -44,6 +44,7 @@ const OnImport = props => {
           上传文件
         </Button>
         <p className={styles['upload-tip']}>支持 .xlsx、.xls 格式的文件</p>
+        <Button style={{marginLeft: 20}} href={aHref}> 点击下载示</Button>
       </div >
     </div>
   )

@@ -7,6 +7,7 @@ import { Form, Input, Button, Checkbox, Table, message, Badge } from 'antd';
 import MySearch from "./component/MySearch"
 import MyEcharts from "./component/echarts"
 import MyTable from "./component/MyTable"
+import OnImport from "./component/onImport"
 const StudentHealth = props => {
   const show = true;
   const { healthDispatch } = props;
@@ -103,20 +104,19 @@ const StudentHealth = props => {
     },
    
   ]
-  const dataSource = [
-    {
-      log_id: 1,
-      studentNumber: 2017211222,
-      name: '小明',
-      grade: '2017',
-      college: '软件工程',
-      major: '软件工程',
-      animalHeat: '是',
-      symptom: '无',
-      punchResult: '已打卡',
-      createTime: '2021-04-01 19:00:00'
+  const receiveChildren = (data)=> {
+    postInfo(data)
+    return data
+  }
+  const postInfo = async (data) => {
+    console.log(data);
+    const result =  await healthDispatch.postStudentHealth(data)
+    if(result === true) {
+      message.success('导入成功')
+    } else {
+      message.success('导入失败')
     }
-  ]
+  }
   return (
     <div>
       <div className={`${style['flexAlign']} ${style['margin20']}` }>
@@ -172,6 +172,7 @@ const StudentHealth = props => {
         </div>
        
       </div>
+      <div> <OnImport receiveChildren={receiveChildren}  aHref='http://121.5.113.203/excel/student_health.xls'></OnImport></div>
       <div className={style.flexAlign}>
         <MyEcharts  id='noPunch' title='未打卡人数' xData={echartData && echartData.collegeNotPunchCount && echartData.collegeNotPunchCount.college} 
           seriesName = '人数' seriesData={echartData && echartData.collegeNotPunchCount && echartData.collegeNotPunchCount.personData}  ></MyEcharts>

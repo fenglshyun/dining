@@ -7,6 +7,7 @@ import  style  from "./index.module.less"
 import EpidemicEcharts from './component/epidemicEcharts'
 import MyTable from './component/MyTable'
 import MyEcharts from "./component/echarts"
+import OnImport from "./component/onImport"
 const Journey = props => {
   const { healthDispatch } = props;
   const [collegeQuarantine, setCollegeQuarantine] = useState({})
@@ -34,6 +35,20 @@ const Journey = props => {
   }
   const addArray = (array) => {
     return array.reduce((a, b) => a + b)
+  }
+
+  const receiveChildren = (data)=> {
+    postInfo(data)
+    return data
+  }
+  const postInfo = async (data) => {
+    console.log(data);
+    const result =  await healthDispatch.postStudentJourney(data)
+    if(result === true) {
+      message.success('导入成功')
+    } else {
+      message.success('导入失败')
+    }
   }
 
   // const getStudent
@@ -220,6 +235,7 @@ const Journey = props => {
         </MyTable>
 
       </div>
+      <div> <OnImport receiveChildren={receiveChildren} aHref='http://121.5.113.203/excel/student_journey.xls'></OnImport></div>
       <MyTable 
         title={'出入校数据'}
         columns={journeyColumns} 

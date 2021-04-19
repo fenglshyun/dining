@@ -14,7 +14,8 @@ import {  get, post } from "../../util/axios";
     studentJourneyTable: {},
     studentQuarantineTable: {},
     eidemicEcharts: [],
-    collegeQuarantine: {}
+    collegeQuarantine: {},
+    studentUserInfo: {}
   }, // initial state
   reducers: {
     // handle state changes with pure functions
@@ -63,6 +64,11 @@ import {  get, post } from "../../util/axios";
       return {
         collegeQuarantine: payload
       }
+    },
+    saveStudentUserInfo(state, payload) {
+      return {
+        studentUserInfo: payload
+      }
     }
   },
   effects: {
@@ -71,6 +77,26 @@ import {  get, post } from "../../util/axios";
     async incrementAsync(payload, rootState) {
       await new Promise(resolve => setTimeout(resolve, 1000))
       this.increment(payload)
+    },
+    async getStudentUserInfo(payload, rootState) {
+      const res = await get('/user/getStudentUserInfo')
+      if(res.code === 0) {
+        this.saveStudentUserInfo(res.data)
+        return res.data
+      } else {
+        console.log(res);
+        return 1
+      }
+    },
+    async getStudentInfo(payload, rootState) {
+      const res = await get('/epidemic/studentHealth')
+      if(res.code === 0) {
+        this.saveStudentHealth(res.data)
+        return res.data
+      } else {
+        console.log(res);
+        return 1
+      }
     },
     async getStudentHealth(payload, rootState) {
       const res = await get('/epidemic/studentHealth')
@@ -142,6 +168,30 @@ import {  get, post } from "../../util/axios";
          return 1
        }
     },
+    async postStudentUserInfo (payload, rootState) {
+      const res = await post (`/epidemic/post/upload/userInfo`, { dataArray: payload})
+      if(res.code === 0) {
+        return true
+      }else {
+        return false
+      }
+    },
+    async postStudentHealth (payload, rootState) {
+      const res = await post (`/epidemic/post/upload/studentHealth`, { dataArray: payload})
+      if(res.code === 0) {
+        return true
+      }else {
+        return false
+      }
+    },
+    async postStudentJourney (payload, rootState) {
+      const res = await post (`/epidemic/post/upload/studentJourney`, { dataArray: payload})
+      if(res.code === 0) {
+        return true
+      }else {
+        return false
+      }
+    }
     
   }
 }

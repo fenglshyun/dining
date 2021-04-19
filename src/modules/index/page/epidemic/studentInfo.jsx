@@ -1,15 +1,24 @@
-import React from 'react'
+import React,{useEffect, useState} from 'react'
 import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Form, Input, Button, Checkbox, Table, message } from 'antd';
 import { AudioOutlined } from '@ant-design/icons';
 import MySearch from "./component/MySearch"
+import MyTable from "./component/MyTable"
 import  style  from "./index.module.less"
 import OnImport from "./component/onImport"
 
 const { Search } = Input;
 const StudentInfo = props => {
+  const { healthDispatch } = props;
+  const [studentTable, setStudentTable] = useState({})
+
+  const getStudentTable = async (page = 1) => {
+    const result =  await healthDispatch.getStudentUserInfo(page)
+    setStudentTable(result)
+   
+  } 
 
   const clickDelete = () => {
     console.log('1');
@@ -20,6 +29,12 @@ const StudentInfo = props => {
   }
   const postInfo = async (data) => {
     console.log(data);
+    const result =  await healthDispatch.postStudentUserInfo(data)
+    if(result === true) {
+      message.success('导入成功')
+    } else {
+      message.success('导入失败')
+    }
   }
   const columns = [
     {
@@ -83,129 +98,24 @@ const StudentInfo = props => {
       }
     },
   ]
-  const studentInfo = [
-    {
-      log_id: 1,
-      studentNumber: 2017211222,
-      name: '小明',
-      grade: '2017',
-      college: '软件工程',
-      major: '软件工程',
-      account: '2017211222',
-      password: 'qq123456',
-      classNumber: '130017001',
-      studentOrigin: '重庆'
-    },
-    {
-      log_id: 1,
-      studentNumber: 2017211222,
-      name: '小明',
-      grade: '2017',
-      college: '软件工程',
-      major: '软件工程',
-      account: '2017211222',
-      password: 'qq123456',
-      classNumber: '130017001',
-      studentOrigin: '重庆'
-    },
-    {
-      log_id: 1,
-      studentNumber: 2017211222,
-      name: '小明',
-      grade: '2017',
-      college: '软件工程',
-      major: '软件工程',
-      account: '2017211222',
-      password: 'qq123456',
-      classNumber: '130017001',
-      studentOrigin: '重庆'
-    },
-    {
-      log_id: 1,
-      studentNumber: 2017211222,
-      name: '小明',
-      grade: '2017',
-      college: '软件工程',
-      major: '软件工程',
-      account: '2017211222',
-      password: 'qq123456',
-      classNumber: '130017001',
-      studentOrigin: '重庆'
-    },{
-      log_id: 1,
-      studentNumber: 2017211222,
-      name: '小明',
-      grade: '2017',
-      college: '软件工程',
-      major: '软件工程',
-      account: '2017211222',
-      password: 'qq123456',
-      classNumber: '130017001',
-      studentOrigin: '重庆'
-    },
-    {
-      log_id: 1,
-      studentNumber: 2017211222,
-      name: '小明',
-      grade: '2017',
-      college: '软件工程',
-      major: '软件工程',
-      account: '2017211222',
-      password: 'qq123456',
-      classNumber: '130017001',
-      studentOrigin: '重庆'
-    },
-    {
-      log_id: 1,
-      studentNumber: 2017211222,
-      name: '小明',
-      grade: '2017',
-      college: '软件工程',
-      major: '软件工程',
-      account: '2017211222',
-      password: 'qq123456',
-      classNumber: '130017001',
-      studentOrigin: '重庆'
-    },
-    {
-      log_id: 1,
-      studentNumber: 2017211222,
-      name: '小明',
-      grade: '2017',
-      college: '软件工程',
-      major: '软件工程',
-      account: '2017211222',
-      password: 'qq123456',
-      classNumber: '130017001',
-      studentOrigin: '重庆'
-    },
-    {
-      log_id: 1,
-      studentNumber: 2017211222,
-      name: '小明',
-      grade: '2017',
-      college: '软件工程',
-      major: '软件工程',
-      account: '2017211222',
-      password: 'qq123456',
-      classNumber: '130017001',
-      studentOrigin: '重庆'
-    }
-  ]
-
+  useEffect(() => {
+    getStudentTable()
+  }, [])
+  console.log(studentTable);
   return (
     <div className={style.studentInfo}>
+      <div> <OnImport receiveChildren={receiveChildren} aHref='http://121.5.113.203/excel/student_info.xls'></OnImport></div>
       <div>
         <MySearch>
 
         </MySearch>
       </div>
-      <div> <OnImport receiveChildren={receiveChildren}></OnImport></div>
+      
       <div>
-        <Table 
+        <MyTable 
           columns={columns} 
-          dataSource={studentInfo} 
-          rowKey='log_id'
+          total={ studentTable.count}
+          dataSource={studentTable && studentTable.table} 
         />
       </div>
     </div>
@@ -216,7 +126,7 @@ const mapState = state => ({
 })
 
 const mapDispatch = (dispatch) => ({
-
+  healthDispatch: dispatch.health
 })
 const StudentInfoContainer = connect(mapState, mapDispatch)(StudentInfo)
 export default StudentInfoContainer;
