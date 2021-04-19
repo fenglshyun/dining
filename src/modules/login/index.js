@@ -81,7 +81,7 @@ const Login = props =>{
   return (
     <div className={style.login}>
       <div className={style.form}>
-        <h2>校园疫情管理系统</h2>
+        <h2>实验成绩评分系统</h2>
         <FormInfo />
       </div>
       

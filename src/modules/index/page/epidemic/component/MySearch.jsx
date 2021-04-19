@@ -7,8 +7,6 @@ const MySearch = props => {
   const searchValue = {
     studentNumber: '',
     name: ''
-
-
   }
 
   const onSearch = () => {
@@ -22,14 +20,6 @@ const MySearch = props => {
 
   return (
     <div>
-      {/* <Search
-        placeholder="input search text"
-        enterButton="Search"
-        size="large"
-        suffix={suffix}
-        onSearch={onSearch}
-        allowClear={true}
-      /> */}
       <div className={style.margin20}>
         <Input
           className={style.margins20}

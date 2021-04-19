@@ -1,0 +1,63 @@
+.studentInfo {
+  margin: 20px 0;
+}
+.margins20 {
+  margin: 0 20px;
+}
+.margin20{
+  margin: 20px 0;
+}
+.flexAlign {
+  display: flex;
+  align-items: center;
+  // align-content: center;
+  // justify-items: center;
+  justify-content: center;
+}
+.flexWrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  overflow: hidden;
+}
+
+// index.less
+.upload-wrap {
+  display: inline-block;
+  position: relative;
+  width: 124px;
+  padding: 3px 5px;
+  // border: 1px solid #40BDFD;
+}
+
+.file-uploader {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  outline: none;
+  opacity: 0;
+  background-color: transparent;
+}
+
+.upload-text {
+  display: inline-block;
+  margin-left: 5px;
+}
+
+.upload-tip {
+  display: inline-block;
+  margin-left: 10px;
+  color: #999;
+}
+.uploadAfter::after {
+  content: "111";
+  display: block;   
+  position:absolute;
+  // width: 100px;   
+  // height: 100px;   
+}
+.uploadAfter {
+  border: 1px solid black;
+}

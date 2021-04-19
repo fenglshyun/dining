@@ -15,7 +15,7 @@ import AddMenuType from "./page/addMenuType"
 import MenuList from "./page/menuList"
 import Order from "./page/order"
 import WhitePage from "./page/whitePage"
-import { StudentInfo, StudentHealth, Journey, Come, QuarantineSet } from "./page/epidemic"
+import { AddCourse, GradeForm, MyCourse, UserInfo } from "./page/grade"
 import  style  from "./index.module.less"
 
 const Index = props => {
@@ -27,20 +27,11 @@ const Index = props => {
      <div className={style.container}>
       <Sider className={style.side}></Sider> 
       <div   className={style.switch}>
-        {/* <Switch>
-          <Route exact path="/index/approve" component={Approve}/>
-          <Route exact path="/index/addMenu" component={AddMenu}/>
-          <Route exact path="/index/addMenuType" component={AddMenuType}/>
-          <Route exact path="/index/menuList" component={MenuList}/>
-          <Route exact path="/index/order" component={Order}/>
-        </Switch> */}
         <Switch>
-          <Route exact path="/index/approve" component={WhitePage}/>
-          <Route exact path="/index/comeSchool" component={Come}/>
-          <Route exact path="/index/studentJourney" component={Journey}/>
-          <Route exact path="/index/studentHealth" component={StudentHealth}/>
-          <Route exact path="/index/studentInfo" component={StudentInfo}/>
-          <Route exact path="/index/quarantine" component={QuarantineSet}/>
+          <Route exact path="/index/addCourse" component={AddCourse}/>
+          <Route exact path="/index/gradeForm" component={GradeForm}/>
+          <Route exact path="/index/myCourse" component={MyCourse}/>
+          <Route exact path="/index/userInfo" component={UserInfo}/>
 
 
         </Switch>
