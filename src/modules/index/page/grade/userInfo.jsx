@@ -74,29 +74,29 @@ const UserInfo = props => {
         </Button>
           <Modal title="修改信息" visible={isEditModalVisible} onOk={handleEditOk} onCancel={handleEditCancel}>
             <Input
-              className={style.margins20}
-              
+             
+              style={{ width: '80%',margin:20}} 
               allowClear={true}
               addonBefore="新电子邮箱"
               onChange={onchangeInput}
               id="email"
             />
              <Input
-              className={style.margins20}
               
+              style={{ width: '80%',margin:20}} 
               allowClear={true}
               addonBefore="新手机号码"
               onChange={onchangeInput}
               id="phone"
             />
           </Modal>
-        <Button type="primary" onClick={showModal} id="editUserInfo" className={style.margins20}>
+        <Button type="primary" onClick={showModal} id="password" className={style.margins20}>
           修改密码
         </Button>
           <Modal title="修改密码" visible={isEditPasswordModalVisible} onOk={handleEditPasswordOk} onCancel={handleEditPasswordCancel}>
             <Input
               className={style.margins20}
-              style={{ width: '80%' }} 
+              style={{ width: '80%',margin:20}} 
               allowClear={true}
               addonBefore="旧密码"
               onChange={onchangeInput}

@@ -33,8 +33,8 @@ const AddCourse = props => {
     },
     {
       title: '创建时间',
-      dataIndex: 'courseClass',
-      key: 'courseClass'
+      dataIndex: 'createTime',
+      key: 'createTime'
     },
     {
       title: '添加',
