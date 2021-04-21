@@ -1,23 +1,28 @@
 import React, { useEffect, useState, useCallback } from 'react'
+
 import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import  style  from "./index.module.less"
-import { Form, Input, Button, Checkbox, Table, message, Badge } from 'antd';
+import { Form, Input, Button, Checkbox, Table, message, Badge, DatePicker} from 'antd';
+import { getNowFormatDate } from '../../../../util/index'
 import MySearch from "./component/MySearch"
 import MyEcharts from "./component/echarts"
 import MyTable from "./component/MyTable"
 import OnImport from "./component/onImport"
+
 const StudentHealth = props => {
   const show = true;
   const { healthDispatch } = props;
   const [peopleCount, setPeopleCount] = useState({})
   const [echartData, setEchartData] = useState({})
   const [studentTable, setStudentTable] = useState({})
+  const [type, setType] = useState('health')
   const [page, setPage] = useState(1)
+  const [dateString, setDateString] = useState('')
 
-  const getStudentHealthInfo = async () => {
-    const result =  await healthDispatch.getStudentHealth()
+  const getStudentHealthInfo = async (dateTime) => {
+    const result =  await healthDispatch.getStudentHealth(dateTime)
 
     // peopleCount = result.peopleCount
     setPeopleCount(result.peopleCount)
@@ -34,15 +39,22 @@ const StudentHealth = props => {
 
   const switchTable = (type) => {
     setPage(1)
-    getStudentHealthTable(1, '2021/04/13', type)
+    setType(type)
+    getStudentHealthInfo(dateString)
+    getStudentHealthTable(1, dateString, type)
+  
   }
 
 
 
 
   useEffect( ()=> {
-    getStudentHealthInfo()
-    getStudentHealthTable(1,'2021/04/13','health')
+    
+    const dateString = getNowFormatDate()
+    setDateString(dateString)
+    getStudentHealthInfo(dateString)
+    getStudentHealthTable(1,dateString,'health')
+    
   
  }, [])
   
@@ -108,6 +120,13 @@ const StudentHealth = props => {
     postInfo(data)
     return data
   }
+  const onChange = (date, dateString) => {
+    console.log(date, dateString);
+    setDateString(dateString)
+    getStudentHealthInfo(dateString)
+
+    getStudentHealthTable(page, dateString, type)
+  }
   const postInfo = async (data) => {
     console.log(data);
     const result =  await healthDispatch.postStudentHealth(data)
@@ -117,9 +136,23 @@ const StudentHealth = props => {
       message.success('导入失败')
     }
   }
+  const onChangePage = (page) => {
+    console.log(page);
+    setPage(page.current)
+    // getStudentTable(page.current)
+    getStudentHealthTable(page.current, dateString, type)
+    getStudentHealthInfo(dateString)
+  }
   return (
     <div>
+       <div className={`${style['flexAlign']} ${style['margin20']}` }>
+         <DatePicker 
+          onChange={onChange} 
+        
+        />
+        </div>
       <div className={`${style['flexAlign']} ${style['margin20']}` }>
+       
         <div className={`${style.margins20} ` }>
           <div>已打卡人数</div>
           <div className={`${style['flexAlign']}`}>
@@ -187,7 +220,7 @@ const StudentHealth = props => {
       </div>
       <div>
         <MySearch ></MySearch>
-        <MyTable columns={columns} dataSource={studentTable && studentTable.table} total={studentTable.count} ></MyTable>
+        <MyTable columns={columns} dataSource={studentTable && studentTable.table} total={studentTable.count} onChange={onChangePage}></MyTable>
       </div>
     </div>
 )

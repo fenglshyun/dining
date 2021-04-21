@@ -3,7 +3,7 @@ import React, { useEffect, useState, useCallback } from 'react'
 import { Form, Input, Button, Checkbox, Table, message, Badge } from 'antd';
 import  style  from "./index.module.less"
 const MyTable = (props) => {
-   const { columns, dataSource, total, title} = props
+   const { columns, dataSource, total, title, onChange} = props
   
   return (
     <div>
@@ -16,7 +16,7 @@ const MyTable = (props) => {
         pageSize: 10, 
         total: total,
       }}
-      // onChange={}
+      onChange={onChange}
     />
     </div>
     

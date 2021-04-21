@@ -14,16 +14,18 @@ const Journey = props => {
   const [studentJourney, setStudentJourney] = useState({})
   const [studentQuarantine, setStudentQuarantine] = useState({})
   const [epidemicEcharts, setEpidemicEcharts] = useState({})
+  const [page, setPage] = useState(1)
+  const [quarantinePage, setQuarantinePage] = useState(1)
   const getCollegeJourney = async ()=> {
     const result = await healthDispatch.getCollegeQuarantine()
     setCollegeQuarantine(result)
   }
-  const getStudentQuarantineTable = async (page) => {
+  const getStudentQuarantineTable = async (page = 1) => {
     const result = await healthDispatch.getStudentQuarantine(page)
     console.log(result);
     setStudentQuarantine(result)
   }
-  const getStudentJourneyTable = async (page) => {
+  const getStudentJourneyTable = async (page = 1) => {
     const result = await healthDispatch.getStudentJourney(page)
     console.log(result);
     setStudentJourney(result)
@@ -48,6 +50,32 @@ const Journey = props => {
       message.success('导入成功')
     } else {
       message.success('导入失败')
+    }
+  }
+  const onChangePage = (page) => {
+    console.log(page);
+    setPage(page.current)
+    getStudentJourneyTable(page.current)
+
+  }
+
+  const onChangeQuarantinePage = (page) => {
+    console.log(page);
+    setQuarantinePage(page.current)
+    getStudentQuarantineTable(page.current)
+
+  }
+  const clickQuarantine = async (log_id, type) => {
+    let statusQuarantine;
+    console.log(log_id, type);
+
+    const result =  await healthDispatch.updateStudentQuarantine({log_id: log_id, quarantine: type})
+    if(result === true) {
+      message.success('操作成功')
+      getStudentJourneyTable(page)
+      getStudentQuarantineTable(page)
+    } else {
+      message.success('操作失败')
     }
   }
 
@@ -109,7 +137,7 @@ const Journey = props => {
       key: 'x',
       render: (record) => {
         return (
-          <a onClick={() => clickDelete(record.log_id)}>编辑</a>
+          <Button disabled={record.quarantine == 'true'? true: false} onClick={() => clickQuarantine(record.log_id, 'true')}>通知隔离</Button>
         )
       }
     },
@@ -157,7 +185,7 @@ const Journey = props => {
       key: 'x',
       render: (record) => {
         return (
-          <a onClick={() => clickDelete(record.log_id)}>编辑</a>
+          <Button onClick={() => clickQuarantine(record.log_id, 'false')}>解除隔离</Button>
         )
       }
     },
@@ -230,8 +258,9 @@ const Journey = props => {
           title={'隔离名单'}
           columns={QuarantineColumns}
           total={studentQuarantine.count}
-          dataSource={studentQuarantine.table} >
-          
+          dataSource={studentQuarantine.table} 
+          onChange={onChangeQuarantinePage}
+          >
         </MyTable>
 
       </div>
@@ -240,7 +269,9 @@ const Journey = props => {
         title={'出入校数据'}
         columns={journeyColumns} 
         total={studentJourney.count}
-        dataSource={studentJourney.table} >
+        dataSource={studentJourney.table} 
+        onChange={onChangePage}
+        >
       </MyTable>
     </div>
     

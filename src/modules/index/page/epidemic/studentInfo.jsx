@@ -13,6 +13,7 @@ const { Search } = Input;
 const StudentInfo = props => {
   const { healthDispatch } = props;
   const [studentTable, setStudentTable] = useState({})
+  const [page, setPage] = useState(1)
 
   const getStudentTable = async (page = 1) => {
     const result =  await healthDispatch.getStudentUserInfo(page)
@@ -98,6 +99,11 @@ const StudentInfo = props => {
       }
     },
   ]
+  const onChangePage = (page) => {
+    console.log(page);
+    setPage(page.current)
+    getStudentTable(page.current)
+  }
   useEffect(() => {
     getStudentTable()
   }, [])
@@ -115,7 +121,8 @@ const StudentInfo = props => {
         <MyTable 
           columns={columns} 
           total={ studentTable.count}
-          dataSource={studentTable && studentTable.table} 
+          dataSource={studentTable && studentTable.table}
+          onChange={onChangePage}
         />
       </div>
     </div>

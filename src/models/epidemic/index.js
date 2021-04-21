@@ -79,7 +79,7 @@ import {  get, post } from "../../util/axios";
       this.increment(payload)
     },
     async getStudentUserInfo(payload, rootState) {
-      const res = await get('/user/getStudentUserInfo')
+      const res = await get('/user/getStudentUserInfo',{page: payload})
       if(res.code === 0) {
         this.saveStudentUserInfo(res.data)
         return res.data
@@ -89,7 +89,7 @@ import {  get, post } from "../../util/axios";
       }
     },
     async getStudentInfo(payload, rootState) {
-      const res = await get('/epidemic/studentHealth')
+      const res = await get('/epidemic/studentHealth',{page: payload})
       if(res.code === 0) {
         this.saveStudentHealth(res.data)
         return res.data
@@ -99,7 +99,7 @@ import {  get, post } from "../../util/axios";
       }
     },
     async getStudentHealth(payload, rootState) {
-      const res = await get('/epidemic/studentHealth')
+      const res = await get('/epidemic/studentHealth', {dateTime: payload})
       if(res.code === 0) {
         this.saveStudentHealth(res.data)
         return res.data
@@ -149,7 +149,7 @@ import {  get, post } from "../../util/axios";
        }
     },
     async getEpidemicEcharts (payload, rootState) { // 获取隔离学生名单
-      const res = await get('/epidemic/locationJourney')
+      const res = await get('/epidemic/locationJourney',{page: payload})
        if(res.code === 0) {
          this.saveEpidemicEcharts(res.data)
          return res.data
@@ -159,7 +159,7 @@ import {  get, post } from "../../util/axios";
        }
     },
     async getCollegeQuarantine (payload, rootState) { // 获取隔离学生名单
-      const res = await get('/epidemic/getCollegeQuarantine')
+      const res = await get('/epidemic/getCollegeQuarantine',{page: payload})
        if(res.code === 0) {
          this.saveCollegeQuarantine(res.data)
          return res.data
@@ -186,6 +186,14 @@ import {  get, post } from "../../util/axios";
     },
     async postStudentJourney (payload, rootState) {
       const res = await post (`/epidemic/post/upload/studentJourney`, { dataArray: payload})
+      if(res.code === 0) {
+        return true
+      }else {
+        return false
+      }
+    },
+    async updateStudentQuarantine (payload, rootState) {
+      const res = await post (`/epidemic/post/studentQuarantine`, { log_id: payload.log_id, quarantine: payload.quarantine})
       if(res.code === 0) {
         return true
       }else {
