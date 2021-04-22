@@ -17,6 +17,7 @@ const InfoTitle = props =>{
   const getUserName = async (token) => {
     const result = await loginDispatch.getUserInfo(token)
     console.log(result);
+    console.log('----------');
     setUserName(result.userName)
   }
 
@@ -28,7 +29,8 @@ const InfoTitle = props =>{
 
 
   useEffect(() => {
-    if(!props.userName) {
+    console.log(props.userName);
+    if(!props.userInfo) {
      const token = getStorage('token')
      getUserName(token)
     }

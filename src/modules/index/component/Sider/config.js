@@ -30,7 +30,7 @@ import OrderIconFont from "../../../iconfont/order";
 ];
 const teacherMenu = [
   {
-    key: 'myCourse',
+    key: 'teacherCourse',
     title:'我的课程',
     icon: <OrderIconFont type="icon-caipinpaihangbang"/>
   },

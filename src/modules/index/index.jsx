@@ -15,7 +15,7 @@ import AddMenuType from "./page/addMenuType"
 import MenuList from "./page/menuList"
 import Order from "./page/order"
 import WhitePage from "./page/whitePage"
-import { AddCourse, GradeForm, MyCourse, UserInfo } from "./page/grade"
+import { AddCourse, GradeForm, MyCourse, UserInfo, TeacherCourse } from "./page/grade"
 import  style  from "./index.module.less"
 
 const Index = props => {
@@ -32,6 +32,7 @@ const Index = props => {
           <Route exact path="/index/gradeForm" component={GradeForm}/>
           <Route exact path="/index/myCourse" component={MyCourse}/>
           <Route exact path="/index/userInfo" component={UserInfo}/>
+          <Route exact path="/index/teacherCourse" component={TeacherCourse}/>
 
 
         </Switch>
