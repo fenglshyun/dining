@@ -3,7 +3,7 @@ import React, { useEffect, useState, useCallback } from 'react'
 import { Form, Input, Button, Checkbox, Table, message, Badge } from 'antd';
 import  style  from "./index.module.less"
 const MyTable = (props) => {
-   const { columns, dataSource, total, title} = props
+   const { columns, dataSource, total, title, key} = props
   
   return (
     <div>
@@ -11,7 +11,8 @@ const MyTable = (props) => {
       <Table 
       columns={columns} 
       dataSource={dataSource} 
-      rowKey='log_id'
+      rowKey={dataSource.log_id}
+     
       pagination={{ 
         pageSize: 10, 
         total: total,

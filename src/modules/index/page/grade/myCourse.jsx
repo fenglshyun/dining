@@ -137,6 +137,7 @@ const MyCourse = props => {
         columns={column}
         dataSource={dataSource}
         total={dataSource.length}
+      
       >
       </MyTable>
 

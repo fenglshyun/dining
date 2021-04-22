@@ -17,6 +17,7 @@ const InfoTitle = props =>{
   const getUserName = async (token) => {
     const result = await loginDispatch.getUserInfo(token)
     console.log(result);
+    setUserName(result.userName)
   }
 
   const breakLogin = () => {
@@ -31,13 +32,13 @@ const InfoTitle = props =>{
      const token = getStorage('token')
      getUserName(token)
     }
-    setUserName(props.userName)
-  }, [userName])
+    
+  }, [])
   return (
     <div className={style.top}>
       <span className={style.title}>实验评分管理系统</span>
       <div>
-        <span className={style.user}>当前用户：{props.userName}</span>
+        <span className={style.user}>当前用户：{userName}</span>
         <span className={style.break} onClick={breakLogin}>退出</span>
       </div>
      

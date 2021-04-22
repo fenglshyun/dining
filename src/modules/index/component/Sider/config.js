@@ -28,4 +28,17 @@ import OrderIconFont from "../../../iconfont/order";
   }
  
 ];
-export default configMenu;
+const teacherMenu = [
+  {
+    key: 'myCourse',
+    title:'我的课程',
+    icon: <OrderIconFont type="icon-caipinpaihangbang"/>
+  },
+  {
+    key: 'userInfo',
+    title: '个人信息',
+    icon: <OrderIconFont type="icon-9"/>
+  }
+ 
+];
+export { configMenu, teacherMenu };
