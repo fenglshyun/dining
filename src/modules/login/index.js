@@ -88,7 +88,7 @@ const Login = props =>{
     <div className={style.background}>
       <div className={style.login}>
         <div className={style.form}>
-          <h2>实验成绩评分系统</h2>
+          <h2 style={{margin: 20}}>实验成绩评分系统</h2>
           <FormInfo />
         </div>
       </div>
