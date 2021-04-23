@@ -11,8 +11,8 @@ import {  Form, Input, Button, Checkbox, message } from 'antd'
 import style from  "./index.module.less"
 
 const layout = {
-  labelCol: { span: 8 },
-  wrapperCol: { span: 8 },
+  labelCol: { span: 6 },
+  wrapperCol: { span: 12 },
 };
 const tailLayout = {
   wrapperCol: { offset: 8, span: 16 },
@@ -79,13 +79,15 @@ const Login = props =>{
     
   }
   return (
-    <div className={style.login}>
-      <div className={style.form}>
-        <h2>实验成绩评分系统</h2>
-        <FormInfo />
+    <div className={style.background}>
+      <div className={style.login}>
+        <div className={style.form}>
+          <h2>实验成绩评分系统</h2>
+          <FormInfo />
+        </div>
       </div>
-      
     </div>
+   
   )
 }
 // 映射state
