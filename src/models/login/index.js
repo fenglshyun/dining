@@ -50,7 +50,7 @@ import { setStorage } from "../../util/index";
         this.saveToken(res.data.token)
         this.saveUserName(`${res.data.userName}`)
         setStorage('token', res.data.token)
-        return 0
+        return res
       } else {
         return 1
       }

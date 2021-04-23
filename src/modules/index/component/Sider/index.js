@@ -26,6 +26,7 @@ const { SubMenu } = Menu;
     const params = pathname.split('/')
     // getUserName()
     setOpenKeys([params[2]])
+    console.log(props.userInfo);
     
     
   },[pathname, props.userInfo&&props.userInfo.power ])

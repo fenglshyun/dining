@@ -28,9 +28,15 @@ const Login = props =>{
       userId,
       password
     })
-    if(result === 0) {
+    console.log(result);
+    if(result.code === 0) {
       message.success('登陆成功')
-      history.push("/index/addCourse");
+      if(result.data.power === "1") {
+        history.push("/index/teacherCourse");
+      }else {
+        history.push("/index/addCourse");
+      }
+     
     } else {
       message.error('账号密码错误')
     }

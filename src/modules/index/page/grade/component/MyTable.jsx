@@ -12,7 +12,6 @@ const MyTable = (props) => {
       columns={columns} 
       dataSource={dataSource} 
       rowKey={dataSource.log_id}
-     
       pagination={{ 
         pageSize: 10, 
         total: total,
