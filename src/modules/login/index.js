@@ -24,11 +24,12 @@ const Login = props =>{
 
   const onFinish = async (values) => {
     const { userId, password } = values
+    console.log(userId, password);
     const result =  await loginDispatch.submitLogin({
       userId,
       password
     })
-    if(result === 0) {
+    if(result.code === 0) {
       message.success('登陆成功')
       history.push("/index/order");
     } else {

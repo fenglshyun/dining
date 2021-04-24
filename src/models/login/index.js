@@ -10,7 +10,8 @@ import { setStorage } from "../../util/index";
     state:0,
     token:'111',
     userPower: '',
-    userName:''
+    userName:'',
+    userInfo:{}
   }, // initial state
   reducers: {
     // handle state changes with pure functions
@@ -28,6 +29,11 @@ import { setStorage } from "../../util/index";
       return{
         token:payload
       }
+    },
+    saveUserInfo(state, payload) {
+      return {
+        userInfo: payload
+      }
     }
   },
   effects: {
@@ -38,13 +44,14 @@ import { setStorage } from "../../util/index";
       this.increment(payload)
     },
     async submitLogin(payload, rootState) {
+      console.log(payload);
       const res =  await post('user/login', payload)
       console.log(res)
       if(res.code === 0) {
         this.saveToken(res.data.token)
-        this.saveUserPower(`${res.data.userName}`)
+        this.saveUserName(`${res.data.userName}`)
         setStorage('token', res.data.token)
-        return 0
+        return res
       } else {
         return 1
       }
@@ -53,7 +60,8 @@ import { setStorage } from "../../util/index";
       const res = await post('user/getUser', { token: payload})
       if(res.code === 0) {
         this.saveUserName(`${res.data.userName}`)
-        return 0
+        this.saveUserInfo(res.data)
+        return res.data
       } else {
         console.log(res);
         return 1

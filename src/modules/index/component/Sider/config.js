@@ -38,4 +38,16 @@ import OrderIconFont from "../../../iconfont/order";
   }
  
 ];
-export default configMenu;
+const studentMenu = [
+  {
+    key:'teacherJourney',
+    title:'教师行程数据查看',
+    icon: <OrderIconFont type="icon-liebiao"/>
+  },
+  {
+    key: 'studentJourney',
+    title:'学生行程数据查看',
+    icon: <OrderIconFont type="icon-caipinpaihangbang"/>
+  },
+]
+export  {configMenu, studentMenu};

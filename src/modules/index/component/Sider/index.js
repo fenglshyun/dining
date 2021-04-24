@@ -6,23 +6,30 @@
 import React, { useEffect, useState } from 'react'
 import { Menu } from 'antd';
 import { useHistory, useLocation } from 'react-router-dom'
-import configMenu from "./config";
+import {configMenu, studentMenu} from "./config";
+import { connect } from 'react-redux'
 import style from "./index.module.less"
 const { SubMenu } = Menu;
 
 
-export const Sider = (props) => {
+ const Sider = (props) => {
+  console.log(props);
+  const { loginDispatch } = props
   const [openKeys, setOpenKeys] = useState(['order']);
   const [current, setCurrent] = useState(1)
   const { pathname } = useLocation(); 
   const history = useHistory()
+
+
   
   useEffect(() =>{
     const params = pathname.split('/')
+    // getUserName()
     setOpenKeys([params[2]])
+    console.log(props.userInfo);
     
     
-  },[pathname])
+  },[pathname, props.userInfo && props.userInfo.power ])
 
 
  
@@ -64,9 +71,25 @@ export const Sider = (props) => {
         selectedKeys={openKeys}
         onClick={handleClick}
         className={style.side}
+        key={props.userInf}
     >
-      {renderSide(configMenu)}
+     
+      {
+       
+       props.userInfo && props.userInfo.power === "root" ? renderSide(configMenu) : (props.userInfo.power === "student" ?  renderSide(studentMenu): renderSide(configMenu) )
+      }
+      {/* {renderSide(studentMenu)} */}
+     
     </Menu>
   );
 
 }
+const mapState = state => ({
+  userInfo: state.login.userInfo
+})
+
+const mapDispatch = (dispatch) => ({
+  loginDispatch: dispatch.login
+})
+const SiderContainer = connect(mapState, mapDispatch)(Sider)
+export default SiderContainer;

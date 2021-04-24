@@ -7,7 +7,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import { Link, Route, BrowserRouter as Router, Switch } from 'react-router-dom'
-import { Sider } from "./component/Sider";
+import Sider from "./component/Sider";
 import InfoTitleContainer from "./component/InfoTitle";
 import Approve from "./page/approve"
 import AddMenu from "./page/addMenu"
