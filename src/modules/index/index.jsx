@@ -35,7 +35,7 @@ const Index = props => {
           <Route exact path="/index/order" component={Order}/>
         </Switch> */}
         <Switch>
-          <Route exact path="/index/approve" component={WhitePage}/>
+          <Route exact path="/index/teacherJourney" component={Journey}/>
           <Route exact path="/index/comeSchool" component={Come}/>
           <Route exact path="/index/studentJourney" component={Journey}/>
           <Route exact path="/index/studentHealth" component={StudentHealth}/>

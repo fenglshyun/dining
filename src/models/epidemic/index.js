@@ -15,7 +15,9 @@ import {  get, post } from "../../util/axios";
     studentQuarantineTable: {},
     eidemicEcharts: [],
     collegeQuarantine: {},
-    studentUserInfo: {}
+    studentUserInfo: {},
+    studentBackBatch: {},
+    studentBackQuarantine: {}
   }, // initial state
   reducers: {
     // handle state changes with pure functions
@@ -68,6 +70,16 @@ import {  get, post } from "../../util/axios";
     saveStudentUserInfo(state, payload) {
       return {
         studentUserInfo: payload
+      }
+    },
+    saveStudentBackBatch(state, payload) {
+      return {
+        studentBackBatch: payload
+      }
+    },
+    saveStudentBackQuarantine(state, payload) {
+      return {
+        studentBackQuarantine: payload
       }
     }
   },
@@ -199,7 +211,52 @@ import {  get, post } from "../../util/axios";
       }else {
         return false
       }
-    }
+    },
+    async getStudentBackBatch (payload, rootState) { // 获取学生返校批次
+      const res = await get('/epidemic/getStudentJourneyBatch',{page: payload.page, type: payload.type})
+       if(res.code === 0) {
+         this.saveStudentBackBatch(res.data)
+         return res.data
+       } else {
+         console.log(res);
+         return 1
+       }
+    },
+    async getStudentBackQuarantine (payload, rootState) { // 获取学生返校 隔离名单
+      const res = await get('/epidemic/getStudentQuarantine',{page: payload})
+       if(res.code === 0) {
+         this.saveStudentBackQuarantine(res.data)
+         return res.data
+       } else {
+         console.log(res);
+         return 1
+       }
+    },
+    async updateStudentBackQuarantine (payload, rootState) { // 更改学生隔离状态
+      const res = await post (`/epidemic/updateQuarantine`, { log_id: payload.log_id, quarantine: payload.quarantine})
+      if(res.code === 0) {
+        return true
+      }else {
+        return false
+      }
+    },
+    async getStudentBackCount (payload, rootState) { // 获取学生返校 批次条数
+      const res = await get('/epidemic/getStudentBackCount',{page: payload})
+       if(res.code === 0) {
+         return res.data
+       } else {
+         console.log(res);
+         return 1
+       }
+    },
+    async postStudentJourney (payload, rootState) { // 导入返校数据
+      const res = await post (`/epidemic/post/upload/backSchool`, { dataArray: payload})
+      if(res.code === 0) {
+        return true
+      }else {
+        return false
+      }
+    },
     
   }
 }

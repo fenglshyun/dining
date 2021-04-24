@@ -7,7 +7,7 @@ import { AppstoreOutlined, MailOutlined, SettingOutlined, FormOutlined } from '@
 import OrderIconFont from "../../../iconfont/order";
  const configMenu = [
   {
-    key:'order',
+    key:'teacherJourney',
     title:'教师行程数据查看',
     icon: <OrderIconFont type="icon-liebiao"/>
   },
