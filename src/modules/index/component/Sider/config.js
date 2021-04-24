@@ -40,14 +40,24 @@ import OrderIconFont from "../../../iconfont/order";
 ];
 const studentMenu = [
   {
-    key:'teacherJourney',
-    title:'教师行程数据查看',
-    icon: <OrderIconFont type="icon-liebiao"/>
+    key:'studentNoticed',
+    title:'通知中心',
+    icon: <OrderIconFont type="icon-9"/>
   },
   {
-    key: 'studentJourney',
-    title:'学生行程数据查看',
+    key: 'studentPunchCard',
+    title:'健康打卡',
+    icon: <OrderIconFont type="icon-renyuanguanli"/>
+  },
+  {
+    key: 'StudentPostJourney',
+    title:'行程上报',
     icon: <OrderIconFont type="icon-caipinpaihangbang"/>
+  },
+  {
+    key: 'StudentPersonInfo',
+    title:'个人信息',
+    icon: <OrderIconFont type="icon-liebiao"/>
   },
 ]
 export  {configMenu, studentMenu};

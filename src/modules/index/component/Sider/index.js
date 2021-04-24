@@ -16,7 +16,6 @@ const { SubMenu } = Menu;
   console.log(props);
   const { loginDispatch } = props
   const [openKeys, setOpenKeys] = useState(['order']);
-  const [current, setCurrent] = useState(1)
   const { pathname } = useLocation(); 
   const history = useHistory()
 
@@ -76,7 +75,7 @@ const { SubMenu } = Menu;
      
       {
        
-       props.userInfo && props.userInfo.power === "root" ? renderSide(configMenu) : (props.userInfo.power === "student" ?  renderSide(studentMenu): renderSide(configMenu) )
+       props.userInfo && props.userInfo.power === "root" ? renderSide(configMenu) : (props.userInfo && props.userInfo.power === "student" ?  renderSide(studentMenu): renderSide(configMenu) )
       }
       {/* {renderSide(studentMenu)} */}
      
