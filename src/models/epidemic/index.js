@@ -284,6 +284,22 @@ import {  get, post } from "../../util/axios";
     async studentGetNoticed (payload, rootState) {
       const res = await get (`/epidemic/student/get/noticed`, { studentNumber: payload})
       if(res.code === 0) {
+        return res.data
+      }else {
+        return false
+      }
+    },
+    async studentAddNoticed (payload, rootState) {
+      const res = await post (`/epidemic/student/post/noticed`, { postData: payload})
+      if(res.code === 0) {
+        return true
+      }else {
+        return false
+      }
+    },
+    async studentAddBatchNoticed (payload, rootState) {
+      const res = await post (`/epidemic/student/post/batchNoticed`, { type: payload})
+      if(res.code === 0) {
         return true
       }else {
         return false

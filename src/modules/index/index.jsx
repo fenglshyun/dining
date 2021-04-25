@@ -42,7 +42,7 @@ const Index = props => {
           <Route exact path="/index/studentInfo" component={StudentInfo}/>
           <Route exact path="/index/quarantine" component={QuarantineSet}/>
           <Route exact path="/index/studentNoticed" component={StudentNoticed}/>
-          <Route exact path="/index/studentPerson" component={StudentPersonInfo}/>
+          <Route exact path="/index/studentPersonInfo" component={StudentPersonInfo}/>
           <Route exact path="/index/studentPostJourney" component={StudentPostJourney}/>
           <Route exact path="/index/studentPunchCard" component={StudentPunchCard}/>
 

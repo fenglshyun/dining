@@ -50,6 +50,17 @@ const Come = props => {
     postInfo(data)
     return data
   }
+  const postNoticed = async() => {
+    const type = batchType
+   
+    const resultNoticed =  await healthDispatch.studentAddBatchNoticed(type)
+
+    if(resultNoticed === true) {
+      message.success('通知成功')
+    } else {
+      message.success('通知失败')
+    }
+  }
   const postInfo = async (data) => {
     console.log(data);
     const result =  await healthDispatch.postStudentJourney(data)
@@ -148,16 +159,44 @@ const Come = props => {
         key: 'x',
         render: (record) => {
           return (
-            <Button disabled={record.quarantine == 'true' ? true: false} onClick={() => clickQuarantine(record.log_id, 'true')}>通知隔离</Button>
+            <Button disabled={record.quarantine == 'true' ? true: false} onClick={() => clickQuarantine(record, 'true')}>通知隔离</Button>
           )
         }
       },
     ]
-    const clickQuarantine = async (log_id, isQuarantine) => {
+    const clickQuarantine = async (record, isQuarantine) => {
       let statusQuarantine;
-      console.log(log_id, isQuarantine);
+      console.log(record, isQuarantine);
   
-      const result =  await healthDispatch.updateStudentBackQuarantine({log_id: log_id, quarantine: isQuarantine})
+      const result =  await healthDispatch.updateStudentBackQuarantine({log_id: record.log_id, quarantine: isQuarantine})
+      if(isQuarantine) {
+        const resultNoticed =  await healthDispatch.studentAddNoticed({
+          name: record.name,
+          studentNumber: record.studentNumber,
+          noticed: '根据疫情防控管理要求，请你进行为期两周的疫情防控隔离',
+          type: 'startQuarantine'
+        })
+
+        if(resultNoticed === true) {
+          message.success('通知成功')
+        } else {
+          message.success('通知失败')
+        }
+      } else {
+        const resultNoticed =  await healthDispatch.studentAddNoticed({
+          name: record.name,
+          studentNumber: record.studentNumber,
+          noticed: '亲爱的同学，您已结束隔离',
+          type: 'endQuarantine'
+        })
+
+        if(resultNoticed === true) {
+          message.success('通知成功')
+        } else {
+          message.success('通知失败')
+        }
+      }
+      
       if(result === true) {
         message.success('操作成功')
         getStudentBackBatchTable(page, type)
@@ -197,11 +236,26 @@ const Come = props => {
       setPage(page.current)
       getStudentBackQuarantineTable(page.current)
     }
-    const clickQuarantine = async (log_id, type) => {
+    const clickQuarantine = async (record, type) => {
       let statusQuarantine;
-      console.log(log_id, type);
   
-      const result =  await healthDispatch.updateStudentBackQuarantine({log_id: log_id, quarantine: type})
+      const result =  await healthDispatch.updateStudentBackQuarantine({log_id: record.log_id, quarantine: type})
+
+   
+        const resultNoticed =  await healthDispatch.studentAddNoticed({
+          name: record.name,
+          studentNumber: record.studentNumber,
+          noticed: '亲爱的同学，您已结束隔离',
+          type: 'endQuarantine'
+        })
+
+        if(resultNoticed === true) {
+          message.success('通知成功')
+        } else {
+          message.success('通知失败')
+        }
+      
+
       if(result === true) {
         message.success('操作成功')
         getStudentBackQuarantineTable(page)
@@ -271,7 +325,7 @@ const Come = props => {
         key: 'x',
         render: (record) => {
           return (
-            <Button onClick={() => clickQuarantine(record.log_id, 'false')}>解除隔离</Button>
+            <Button onClick={() => clickQuarantine(record, 'false')}>解除隔离</Button>
           )
         }
       },
@@ -353,6 +407,12 @@ const Come = props => {
         </Select>
         <div style={{display: 'inline-block',marginLeft: 20}}>
           <OnImport receiveChildren={receiveChildren}  aHref='http://121.5.113.203/excel/student_journey_back_school.xls'></OnImport>
+         
+        </div>
+        <div>
+          <Button type="primary" onClick={postNoticed}>
+            批量通知返校
+          </Button>
         </div>
       </div>
       <div>

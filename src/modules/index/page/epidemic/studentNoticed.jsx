@@ -2,128 +2,124 @@ import React,{useEffect, useState} from 'react'
 import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { Form, Input, Button, Checkbox, Table, message } from 'antd';
+import { Form, Input, Button, Checkbox, Table, message, Tabs  } from 'antd';
 import { AudioOutlined } from '@ant-design/icons';
 import MySearch from "./component/MySearch"
 import MyTable from "./component/MyTable"
 import  style  from "./index.module.less"
 import OnImport from "./component/onImport"
+import { getStorage, clearStorage } from "../../../../util/index";
 
 const { Search } = Input;
+const { TabPane } = Tabs;
 const StudentNoticed = props => {
-  const { healthDispatch } = props;
-  const [studentTable, setStudentTable] = useState({})
-  const [page, setPage] = useState(1)
+  const { loginDispatch, healthDispatch } = props
+  const [userInfo, setUserInfo] = useState({})
+  const [msg, setMsg] = useState({})
 
-  const getStudentTable = async (page = 1) => {
-    const result =  await healthDispatch.getStudentUserInfo(page)
-    setStudentTable(result)
+ 
+
+  const getNoticed = async (studentNumber) => {
+    const result =  await healthDispatch.studentGetNoticed(studentNumber)
    
-  } 
-
-  const clickDelete = () => {
-    console.log('1');
-  }
-  const receiveChildren = (data)=> {
-    postInfo(data)
-    return data
-  }
-  const postInfo = async (data) => {
-    console.log(data);
-    const result =  await healthDispatch.postStudentUserInfo(data)
-    if(result === true) {
-      message.success('导入成功')
+    if(result) {
+      message.success('通知获取成功')
+      console.log(result.msg);
+      setMsg(result.msg)
     } else {
-      message.success('导入失败')
+      message.success('暂无通知')
     }
   }
-  const columns = [
-    {
-      title: '序号',
-      dataIndex: 'log_id',
-      key: 'log_id'
-    },
-    {
-      title: '学号',
-      dataIndex: 'studentNumber',
-      key: 'studentNumber'
-    },
-    {
-      title: '姓名',
-      dataIndex: 'name',
-      key: 'name'
-    },
-    {
-      title: '年级',
-      dataIndex: 'grade',
-      key: 'grade'
-    },
-    {
-      title: '学院',
-      dataIndex: 'college',
-      key: 'college'
-    },
-    {
-      title: '专业',
-      dataIndex: 'major',
-      key: 'major'
-    },
-    {
-      title: '账号',
-      dataIndex: 'account',
-      key: 'account'
-    },
-    {
-      title: '密码',
-      dataIndex: 'password',
-      key: 'password'
-    },
-    {
-      title: '班级',
-      dataIndex: 'classNumber',
-      key: 'classNumber'
-    },
-    {
-      title: '生源地',
-      dataIndex: 'studentOrigin',
-      key: 'studentOrigin'
-    },
-    {
-      title: 'Action',
-      dataIndex: '',
-      key: 'x',
-      render: (record) => {
-        return (
-          <a onClick={() => clickDelete(record.log_id)}>编辑</a>
-        )
-      }
-    },
-  ]
-  const onChangePage = (page) => {
-    console.log(page);
-    setPage(page.current)
-    getStudentTable(page.current)
+ 
+  const callback = (key) => {
+    console.log(key);
   }
+  const getUserInfo = async (token) => {
+    const result = await loginDispatch.getUserInfo(token)
+    console.log(result);
+    getNoticed(result.studentNumber)
+
+    setUserInfo(result)
+  }
+ 
   useEffect(() => {
-    getStudentTable()
+    const token = getStorage('token')
+    getUserInfo(token)
   }, [])
-  console.log(studentTable);
+  // console.log(msg.startQuarantineNoticed);
   return (
     <div className={style.studentInfo}>
-      <div> <OnImport receiveChildren={receiveChildren} aHref='http://121.5.113.203/excel/student_info.xls'></OnImport></div>
+     
       <div>
-        <MySearch>
-
-        </MySearch>
+        <h2>公告栏</h2>
       </div>
-      
       <div>
-        <MyTable 
-          columns={columns} 
-          total={ studentTable.count}
-          dataSource={studentTable && studentTable.table}
-          onChange={onChangePage}
-        />
+      <Tabs defaultActiveKey="1" onChange={callback}>
+        <TabPane tab="隔离通告" key="1">
+          <div>
+            {
+              msg.startQuarantineNoticed && msg.startQuarantineNoticed.length != 0 ? 
+              msg && msg.startQuarantineNoticed &&  msg.startQuarantineNoticed.map(element => {
+                return (
+                  <h2>
+                    {element.noticed}
+                    <a style={{paddingLeft: 20}} href="http://www.cqupt.edu.cn/">校园官网</a>
+                    <div style={{paddingLeft: 20}}>
+                      <span >
+                        发布时间： {element.createTime}
+                      </span>
+                    </div>
+                  </h2>           
+                )
+              
+              }): '暂无通知'
+          }
+          </div>
+        
+        </TabPane>
+        <TabPane tab="解除隔离通知" key="2">
+          <div>
+              {
+               msg.startQuarantineNoticed && msg.endQuarantineNoticed.length != 0 ? 
+                msg && msg.endQuarantineNoticed &&  msg.endQuarantineNoticed.map(element => {
+                  return (
+                    <h2>
+                    {element.noticed}
+                    <a style={{paddingLeft: 20}} href="http://www.cqupt.edu.cn/">校园官网</a>
+                    <div style={{paddingLeft: 20}}>
+                      <span >
+                        发布时间： {element.createTime}
+                      </span>
+                    </div>
+                  </h2>     
+                  )
+                
+                }): '暂无通知'
+            }
+          </div>
+        </TabPane>
+        <TabPane tab="返校通知" key="3">
+          <div>
+                {
+                  msg.startQuarantineNoticed && msg.backSchoolNoticed.length != 0 ? 
+                  msg && msg.backSchoolNoticed &&  msg.backSchoolNoticed.map(element => {
+                    return (
+                      <h2>
+                        {element.noticed}
+                        <a style={{paddingLeft: 20}} href="http://www.cqupt.edu.cn/">校园官网</a>
+                        <div style={{paddingLeft: 20}}>
+                          <span >
+                            发布时间： {element.createTime}
+                          </span>
+                        </div>
+                      </h2>      
+                    )
+                  
+                  }): '暂无通知'
+              }
+            </div>
+        </TabPane>
+      </Tabs>
       </div>
     </div>
 )
@@ -133,7 +129,8 @@ const mapState = state => ({
 })
 
 const mapDispatch = (dispatch) => ({
-  healthDispatch: dispatch.health
+  healthDispatch: dispatch.health,
+  loginDispatch: dispatch.login
 })
 const StudentNoticedContainer = connect(mapState, mapDispatch)(StudentNoticed)
 export default StudentNoticedContainer;
