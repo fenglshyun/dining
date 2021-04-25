@@ -257,7 +257,38 @@ import {  get, post } from "../../util/axios";
         return false
       }
     },
-    
+    async studentPostHealth (payload, rootState) {
+      const res = await post (`/epidemic/student/post/health`, { postData: payload})
+      if(res.code === 0) {
+        return true
+      }else {
+        return false
+      }
+    },
+    async studentPostJourney (payload, rootState) {
+      const res = await post (`/epidemic/student/post/journey`, { postData: payload})
+      if(res.code === 0) {
+        return true
+      }else {
+        return false
+      }
+    },
+    async studentUpdatePassword (payload, rootState) {
+      const res = await post (`/epidemic/student/update/password`, { postData: payload})
+      if(res.code === 0) {
+        return true
+      }else {
+        return false
+      }
+    },
+    async studentGetNoticed (payload, rootState) {
+      const res = await get (`/epidemic/student/get/noticed`, { studentNumber: payload})
+      if(res.code === 0) {
+        return true
+      }else {
+        return false
+      }
+    }
   }
 }
 export default health;

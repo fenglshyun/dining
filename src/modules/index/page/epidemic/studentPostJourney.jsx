@@ -2,130 +2,163 @@ import React,{useEffect, useState} from 'react'
 import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { Form, Input, Button, Checkbox, Table, message } from 'antd';
+import { Form, Input, Button, Checkbox, Table, message, Select, DatePicker } from 'antd';
 import { AudioOutlined } from '@ant-design/icons';
 import MySearch from "./component/MySearch"
 import MyTable from "./component/MyTable"
 import  style  from "./index.module.less"
+import moment from 'moment';
 import OnImport from "./component/onImport"
+import { getStorage, clearStorage } from "../../../../util/index";
 
 const { Search } = Input;
+const { Option } = Select;
+const { RangePicker } = DatePicker;
+const dateFormat = 'YYYY/MM/DD';
+const layout = {
+  labelCol: { span: 8 },
+  wrapperCol: { span: 8 },
+
+};
+const tailLayout = {
+  wrapperCol: { offset: 8, span: 16 },
+};
+const postData = {
+}
 const StudentPostJourney = props => {
-  const { healthDispatch } = props;
-  const [studentTable, setStudentTable] = useState({})
-  const [page, setPage] = useState(1)
+  const { healthDispatch, loginDispatch } = props;
+  const [userInfo, setUserInfo] = useState({})
+ 
+  
+  const onFinish = (values) => {
+    console.log(values);
 
-  const getStudentTable = async (page = 1) => {
-    const result =  await healthDispatch.getStudentUserInfo(page)
-    setStudentTable(result)
-   
-  } 
-
-  const clickDelete = () => {
-    console.log('1');
+    const goSchool =  moment(values.date[0]).format('YYYY/MM/DD') 
+    const comeSchool =  moment(values.date[1]).format('YYYY/MM/DD') 
+    postData.approach = values.approach;
+    postData.detailLocation = values.detailLocation;
+    postData.province = values.province;
+    postData.goSchool = goSchool;
+    postData.comeSchool = comeSchool;
+    console.log(postData);
+    postStudentHealthForm(postData)
+  };
+  const handleChangeAnimalHeat = (value) => {
+   postData.animalHeat = value
   }
-  const receiveChildren = (data)=> {
-    postInfo(data)
-    return data
-  }
-  const postInfo = async (data) => {
-    console.log(data);
-    const result =  await healthDispatch.postStudentUserInfo(data)
+  const handleChangeSymptom = (value) => {
+    postData.symptom = value
+   }
+  const postStudentHealthForm = async (postData) => {
+    const result =  await healthDispatch.studentPostJourney(postData)
     if(result === true) {
-      message.success('导入成功')
+      message.success('提交成功')
     } else {
-      message.success('导入失败')
+      message.success('提交失败')
     }
   }
-  const columns = [
-    {
-      title: '序号',
-      dataIndex: 'log_id',
-      key: 'log_id'
-    },
-    {
-      title: '学号',
-      dataIndex: 'studentNumber',
-      key: 'studentNumber'
-    },
-    {
-      title: '姓名',
-      dataIndex: 'name',
-      key: 'name'
-    },
-    {
-      title: '年级',
-      dataIndex: 'grade',
-      key: 'grade'
-    },
-    {
-      title: '学院',
-      dataIndex: 'college',
-      key: 'college'
-    },
-    {
-      title: '专业',
-      dataIndex: 'major',
-      key: 'major'
-    },
-    {
-      title: '账号',
-      dataIndex: 'account',
-      key: 'account'
-    },
-    {
-      title: '密码',
-      dataIndex: 'password',
-      key: 'password'
-    },
-    {
-      title: '班级',
-      dataIndex: 'classNumber',
-      key: 'classNumber'
-    },
-    {
-      title: '生源地',
-      dataIndex: 'studentOrigin',
-      key: 'studentOrigin'
-    },
-    {
-      title: 'Action',
-      dataIndex: '',
-      key: 'x',
-      render: (record) => {
-        return (
-          <a onClick={() => clickDelete(record.log_id)}>编辑</a>
-        )
-      }
-    },
-  ]
-  const onChangePage = (page) => {
-    console.log(page);
-    setPage(page.current)
-    getStudentTable(page.current)
+
+  const getUserInfo = async (token) => {
+    const result = await loginDispatch.getUserInfo(token)
+    const { studentNumber, college, classNumber, grade, major, userName } = result;
+    postData.studentNumber = studentNumber;
+    postData.college = college;
+    postData.grade = grade;
+    postData.name = userName;
+
+    setUserInfo(result)
   }
+ 
   useEffect(() => {
-    getStudentTable()
+    const token = getStorage('token')
+    getUserInfo(token)
   }, [])
-  console.log(studentTable);
   return (
     <div className={style.studentInfo}>
-      <div> <OnImport receiveChildren={receiveChildren} aHref='http://121.5.113.203/excel/student_info.xls'></OnImport></div>
-      <div>
-        <MySearch>
+    <div > <h2 style={{ textAlign: 'center'}}>行程上报</h2></div>
+    <div>
+      <Form
+        {...layout}
+        onFinish={onFinish}
+      >
+        <Form.Item
+          label="姓名"
+          name="username"
+        >
+          <Input  disabled placeholder={userInfo.userName}/>
+        </Form.Item>
 
-        </MySearch>
-      </div>
-      
-      <div>
-        <MyTable 
-          columns={columns} 
-          total={ studentTable.count}
-          dataSource={studentTable && studentTable.table}
-          onChange={onChangePage}
-        />
-      </div>
+        <Form.Item
+          label="学号"
+          name="studentNumber"
+        >
+          <Input  disabled placeholder={userInfo.studentNumber}/>
+        </Form.Item>
+
+        <Form.Item
+          label="年级"
+          name="grade"
+        >
+          <Input  disabled placeholder={userInfo.grade}/>
+        </Form.Item>
+
+        <Form.Item
+          label="学院"
+          name="college"
+        >
+          <Input  disabled placeholder={userInfo.college}/>
+        </Form.Item>
+
+        <Form.Item
+          label="专业"
+          name="major"
+        >
+          <Input  disabled placeholder={userInfo.major}/>
+        </Form.Item>
+
+        <Form.Item
+          label="外出目的地(省市区)"
+          name="province"
+          rules={[{ required: true, message: '请输入' }]}
+        >
+          <Input  placeholder="请输入省市区"/>
+        </Form.Item>
+
+        <Form.Item
+          label="外出详细地址"
+          name="detailLocation"
+          rules={[{ required: true, message: '请输入' }]}
+        >
+          <Input  placeholder="请输入详细地址"/>
+        </Form.Item>
+
+        <Form.Item
+          label="途径城市"
+          name="approach"
+          rules={[{ required: true, message: '请输入' }]}
+        >
+          <Input  placeholder="示例：重庆、北京"/>
+        </Form.Item>
+        
+
+        <Form.Item
+          label="出发日期、返回学校日期"
+          name="date"
+          rules={[{ required: true, message: '请输入' }]}
+          
+        >
+         <RangePicker  format={dateFormat}/>
+        </Form.Item>
+        
+
+        <Form.Item {...tailLayout}>
+          <Button type="primary" htmlType="submit">
+            Submit
+          </Button>
+      </Form.Item>
+      </Form>
     </div>
+  </div>
 )
 } 
 
@@ -133,7 +166,8 @@ const mapState = state => ({
 })
 
 const mapDispatch = (dispatch) => ({
-  healthDispatch: dispatch.health
+  healthDispatch: dispatch.health,
+  loginDispatch: dispatch.login
 })
 const StudentPostJourneyContainer = connect(mapState, mapDispatch)(StudentPostJourney)
 export default StudentPostJourneyContainer;
