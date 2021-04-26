@@ -75,7 +75,7 @@ const { SubMenu } = Menu;
      
       {
        
-       props.userInfo && props.userInfo.power === "root" ? renderSide(configMenu) : (props.userInfo && props.userInfo.power === "student" ?  renderSide(studentMenu): renderSide(configMenu) )
+       props.userInfo && props.userInfo.power === "root" ? renderSide(configMenu) : (props.userInfo && props.userInfo.power === "student" ?  renderSide(studentMenu): renderSide(studentMenu) )
       }
       {/* {renderSide(studentMenu)} */}
      

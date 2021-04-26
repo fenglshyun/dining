@@ -9,12 +9,7 @@ import { connect } from 'react-redux'
 import { Link, Route, BrowserRouter as Router, Switch } from 'react-router-dom'
 import Sider from "./component/Sider";
 import InfoTitleContainer from "./component/InfoTitle";
-import Approve from "./page/approve"
-import AddMenu from "./page/addMenu"
-import AddMenuType from "./page/addMenuType"
-import MenuList from "./page/menuList"
-import Order from "./page/order"
-import WhitePage from "./page/whitePage"
+
 import { StudentInfo, StudentHealth, Journey, Come, QuarantineSet, StudentPersonInfo, StudentNoticed, StudentPostJourney, StudentPunchCard } from "./page/epidemic"
 import  style  from "./index.module.less"
 
@@ -27,13 +22,6 @@ const Index = props => {
      <div className={style.container}>
       <Sider className={style.side}></Sider> 
       <div   className={style.switch}>
-        {/* <Switch>
-          <Route exact path="/index/approve" component={Approve}/>
-          <Route exact path="/index/addMenu" component={AddMenu}/>
-          <Route exact path="/index/addMenuType" component={AddMenuType}/>
-          <Route exact path="/index/menuList" component={MenuList}/>
-          <Route exact path="/index/order" component={Order}/>
-        </Switch> */}
         <Switch>
           <Route exact path="/index/teacherJourney" component={Journey}/>
           <Route exact path="/index/comeSchool" component={Come}/>
@@ -45,8 +33,6 @@ const Index = props => {
           <Route exact path="/index/studentPersonInfo" component={StudentPersonInfo}/>
           <Route exact path="/index/studentPostJourney" component={StudentPostJourney}/>
           <Route exact path="/index/studentPunchCard" component={StudentPunchCard}/>
-
-
         </Switch>
       </div>
      </div>
