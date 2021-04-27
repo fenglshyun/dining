@@ -9,7 +9,7 @@ import { connect } from 'react-redux'
 import { Link, Route, BrowserRouter as Router, Switch } from 'react-router-dom'
 import Sider from "./component/Sider";
 import InfoTitleContainer from "./component/InfoTitle";
-
+import CountContainer from "./page/whitePage"
 import { StudentInfo, StudentHealth, Journey, Come, QuarantineSet, StudentPersonInfo, StudentNoticed, StudentPostJourney, StudentPunchCard } from "./page/epidemic"
 import  style  from "./index.module.less"
 
@@ -33,6 +33,7 @@ const Index = props => {
           <Route exact path="/index/studentPersonInfo" component={StudentPersonInfo}/>
           <Route exact path="/index/studentPostJourney" component={StudentPostJourney}/>
           <Route exact path="/index/studentPunchCard" component={StudentPunchCard}/>
+          <Route exact path="/index/white" component={CountContainer}/>
         </Switch>
       </div>
      </div>

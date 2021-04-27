@@ -7,6 +7,11 @@ import { AppstoreOutlined, MailOutlined, SettingOutlined, FormOutlined } from '@
 import OrderIconFont from "../../../iconfont/order";
  const configMenu = [
   {
+    key:'studentInfo',
+    title: '学生信息管理',
+    icon: <OrderIconFont type="icon-renyuanguanli"/>
+  },
+  {
     key:'teacherJourney',
     title:'教师行程数据查看',
     icon: <OrderIconFont type="icon-liebiao"/>
@@ -26,11 +31,7 @@ import OrderIconFont from "../../../iconfont/order";
     title: '返校批次数据',
     icon: <OrderIconFont type="icon-9"/>
   },
-  {
-    key:'studentInfo',
-    title: '学生信息管理',
-    icon: <OrderIconFont type="icon-renyuanguanli"/>
-  },
+  
   {
     key:'quarantine',
     title: '中高风险地区设置',

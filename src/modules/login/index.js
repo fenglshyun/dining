@@ -31,7 +31,13 @@ const Login = props =>{
     })
     if(result.code === 0) {
       message.success('登陆成功')
-      history.push("/index/order");
+      console.log(result.data);
+      if(result.data.identity === 'root') {
+        history.push("/index/studentInfo");
+      }else {
+        history.push("/index/studentNoticed");
+      }
+      
     } else {
       message.error('账号密码错误')
     }

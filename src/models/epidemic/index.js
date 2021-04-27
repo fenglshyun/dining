@@ -304,7 +304,23 @@ import {  get, post } from "../../util/axios";
       }else {
         return false
       }
-    }
+    },
+    async locationAdd (payload, rootState) {
+      const res = await post (`/epidemic/locationJourney/add`, { label: payload.label, value: payload.value})
+      if(res.code === 0) {
+        return true
+      }else {
+        return false
+      }
+    },
+    async locationDelete (payload, rootState) {
+      const res = await post (`/epidemic/locationJourney/delete`, { label: payload})
+      if(res.code === 0) {
+        return true
+      }else {
+        return false
+      }
+    },
   }
 }
 export default health;

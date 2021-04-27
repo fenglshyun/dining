@@ -167,7 +167,7 @@ const Journey = props => {
       key: 'x',
       render: (record) => {
         return (
-          <Button disabled={record.quarantine == 'true'? true: false} onClick={() => clickQuarantine(record.log_id, 'true')}>通知隔离</Button>
+          <Button disabled={record.quarantine == 'true'? true: false} onClick={() => clickQuarantine(record, 'true')}>通知隔离</Button>
         )
       }
     },

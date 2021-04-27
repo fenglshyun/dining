@@ -54,14 +54,19 @@ const StudentPersonInfo = props => {
     if(result === true) {
       message.success('修改成功')
     } else {
-      message.fail('密码错误')
+      message.error('密码错误')
     }
   }
 
   const getUserInfo = async (token) => {
     const result = await loginDispatch.getUserInfo(token)
     const { studentNumber, college, classNumber, grade, major, userName } = result;
-
+    // postData.studentNumber = studentNumber;
+    // postData.college = college;
+    // postData.classNumber = classNumber;
+    // postData.grade = grade;
+    // postData.major = major;
+    // postData.name = userName;
     console.log(result);
 
     setUserInfo(result)
@@ -85,7 +90,7 @@ const StudentPersonInfo = props => {
      <div style={{marginTop: 20}}>
         <Button type="primary" onClick={showModal}>修改密码</Button>
      </div>
-     <Modal title="Basic Modal" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+     <Modal title="Basic Modal" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} destroyOnClose>
       <div style={{ marginBottom: 16 }}>
         <Input.Password addonBefore="旧密码"   
           iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
