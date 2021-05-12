@@ -65,7 +65,34 @@ import { setStorage } from "../../util/index";
         console.log(res);
         return 1
       }
-    }
+    },
+    async getUserInfoAll(payload, rootState) {
+      const res = await post('/user/userInfo', { userId: payload})
+      if(res.code === 0) {
+        return res.data
+      } else {
+        console.log(res);
+        return 1
+      }
+    },
+    async updateUserInfo(payload, rootState) {
+      const res = await post('/user/update/updateInfo', { receiveData: payload})
+      if(res.code === 0) {
+        return true
+      } else {
+        console.log(res);
+        return false
+      }
+    },
+    async updateUserPassword(payload, rootState) {
+      const res = await post('/user/update/updatePassword', { receiveData: payload})
+      if(res.code === 0) {
+        return true
+      } else {
+        console.log(res);
+        return false
+      }
+    },
   }
 }
 export default login;

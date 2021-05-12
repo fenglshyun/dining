@@ -73,12 +73,6 @@ const { SubMenu } = Menu;
         className={style.side}
         key={props.userInf}
     >
-      {/* {
-        console.log(props.userInfo.power)
-      } */}
-      {/* {
-        props.userInfo.power === 1 ?  {renderSide(configMenu)} : {renderSide(studentMenu)}
-      } */}
       {
        props.userInfo && props.userInfo.power === "1" ? renderSide(teacherMenu): renderSide(configMenu)
       }

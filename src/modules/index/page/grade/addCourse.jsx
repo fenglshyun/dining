@@ -9,6 +9,11 @@ import { MyTable } from "./component/index"
 import  style  from "./index.module.less"
 const AddCourse = props => {
   const { Option } = Select;
+  const [studentCourseTable, setStudentCourseTable] = useState({table: [], count: 0})
+  const [searchLabel, setSearchLabel] = useState('courseName')
+  const [searchKey, setSearchKey] = useState('')
+  const [studentNumber, setStudentNumber] = useState('')
+  const {gradeDispatch} = props;
 
   const column = [
     {
@@ -18,31 +23,28 @@ const AddCourse = props => {
     },
     {
       title: '课程编号',
-      dataIndex: 'courseNumber',
-      key: 'courseNumber'
+      dataIndex: 'courseNum',
+      key: 'courseNum'
     },
     {
       title: '任课教师',
-      dataIndex: 'courseTeacher',
-      key: 'courseTeacher'
+      dataIndex: 'teacherName',
+      key: 'teacherName'
     },
     {
       title: '课程班级',
       dataIndex: 'courseClass',
       key: 'courseClass'
     },
-    {
-      title: '创建时间',
-      dataIndex: 'createTime',
-      key: 'createTime'
-    },
+    
     {
       title: '添加',
       dataIndex: '',
       key: 'x',
       render: (record) => {
+        console.log(record);
         return (
-          <a onClick={() => clickDelete(record.log_id)}>加入</a>
+          <a onClick={() => addStudentCourse(studentNumber, record.log_id, record.teacherKey, record.teacherName)}>加入</a>
         )
       }
     }
@@ -100,16 +102,39 @@ const AddCourse = props => {
 
   const onSearch = () => {
     console.log(searchValue);
+    getSearchCourseTable(1, searchLabel, searchKey)
   }
   function handleChange(value) {
     console.log(`selected ${value}`);
     searchValue.label = value
+    setSearchLabel(value)
   }
   const onchangeInput = (e) => {
     const { id, value } = e.target;
-    searchValue[id] = value
+    setSearchKey(value)
     console.log(searchValue);
   }
+ 
+  const getSearchCourseTable = async(page, type, key) => {
+    const result = await gradeDispatch.getStudentSearchCourseList({page, type, searchKey: key});
+    console.log(result);  
+    setStudentCourseTable(result)
+  }
+  const addStudentCourse = async(studentNumber, courseKey, teacherKey, teacherName)=> {
+    const result = await gradeDispatch.studentAddCourse({studentNumber, courseKey, teacherKey, teacherName})
+    if(result === 2) {
+      message.info('已经加入')
+    }else if(result === 0) {
+      message.success('添加成功')
+    } else {
+      message.error('添加失败')
+    }
+  }
+
+  useEffect(() => {
+    props.userInfo && props.userInfo.userId && getSearchCourseTable(1,'', '')
+    props.userInfo && props.userInfo.userId && setStudentNumber(props.userInfo.userId)
+  }, [props.userInfo])
 
   return (
     <div>
@@ -117,7 +142,7 @@ const AddCourse = props => {
         <div className={style.margin20}>
         <Select defaultValue="课程名称" style={{ width: 120 }} onChange={handleChange}>
           <Option value="courseName">课程名称</Option>
-          <Option value="courseTeacher">任课教师</Option>
+          <Option value="teacherName">任课教师</Option>
           <Option value="courseClass" >班级</Option>
         </Select>
           <Input
@@ -137,8 +162,8 @@ const AddCourse = props => {
       <MyTable
         title={'课程列表'}
         columns={column}
-        dataSource={dataSource}
-        total={dataSource.length}
+        dataSource={studentCourseTable.table}
+        total={studentCourseTable.count}
       >
 
       </MyTable>
@@ -147,10 +172,11 @@ const AddCourse = props => {
 } 
 
 const mapState = state => ({
+  userInfo: state.login.userInfo
 })
 
 const mapDispatch = (dispatch) => ({
-
+  gradeDispatch: dispatch.grade
 })
 const AddCourseContainer = connect(mapState, mapDispatch)(AddCourse)
 export default AddCourseContainer;

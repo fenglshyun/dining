@@ -28,7 +28,7 @@ const StudentHealth = props => {
   const getStudentHealthTable = async (page, dateTime, type) => {
     const result = await healthDispatch.getStudentHealthTable({page, dateTime, type})
     console.log(result);
-    console.log(props);
+    console.log(props);     
     setStudentTable(result)
   }
 

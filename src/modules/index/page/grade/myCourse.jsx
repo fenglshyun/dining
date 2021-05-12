@@ -8,7 +8,9 @@ import { MyTable } from "./component/index"
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import  style  from "./index.module.less"
 const MyCourse = props => {
+  const { gradeDispatch } = props;
   const [createGroupModel, setCreateGroupModel] = useState(false)
+  const [studentCourseTable, setStudentCourseTable] = useState({table: [], count: 0})
 
   const column = [
     {
@@ -18,13 +20,13 @@ const MyCourse = props => {
     },
     {
       title: '课程编号',
-      dataIndex: 'courseNumber',
-      key: 'courseNumber'
+      dataIndex: 'courseNum',
+      key: 'courseNum'
     },
     {
       title: '任课教师',
-      dataIndex: 'courseTeacher',
-      key: 'courseTeacher'
+      dataIndex: 'teacherName',
+      key: 'teacherName'
     },
     {
       title: '课程班级',
@@ -32,14 +34,10 @@ const MyCourse = props => {
       key: 'courseClass'
     },
     {
-      title: '创建时间',
-      dataIndex: 'createTime',
-      key: 'createTime'
-    },
-    {
-      title: '添加',
+      title: '操作',
       dataIndex: '',
       key: 'x',
+      align: 'center',
       render: (record) => {
         return (
           <div>
@@ -128,6 +126,15 @@ const MyCourse = props => {
   const onFinish = values => {
     console.log(values);
   };
+  const getStudentCourseTable = async (page, studentNumber) => {
+    const result = await gradeDispatch.getStudentCourseList({page, studentNumber}) 
+    console.log(result);  
+    setStudentCourseTable(result)
+  }
+  useEffect(() => {
+    props.userInfo && props.userInfo.userId && getStudentCourseTable(1, props.userInfo.userId)
+  
+  }, [props.userInfo])
    
 
   return (
@@ -135,8 +142,8 @@ const MyCourse = props => {
       <MyTable
         title={'课程列表'}
         columns={column}
-        dataSource={dataSource}
-        total={dataSource.length}
+        dataSource={studentCourseTable.table}
+        total={studentCourseTable.count}
       
       >
       </MyTable>
@@ -222,10 +229,11 @@ const MyCourse = props => {
 } 
 
 const mapState = state => ({
+  userInfo: state.login.userInfo
 })
 
 const mapDispatch = (dispatch) => ({
-
+  gradeDispatch: dispatch.grade
 })
 const MyCourseContainer = connect(mapState, mapDispatch)(MyCourse)
 export default MyCourseContainer;
